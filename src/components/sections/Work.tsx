@@ -6,6 +6,7 @@ import { useStore } from "@/lib/store";
 import { getProjects } from "@/lib/content";
 import type { ProjectFlat } from "@/app/actions/projects";
 import dynamic from "next/dynamic";
+import { imgSrc } from "@/lib/imgSrc";
 
 const ProjectEditModal = dynamic(() => import("@/components/admin/ProjectEditModal"), { ssr: false });
 
@@ -62,7 +63,7 @@ export default function Work() {
                 </div>
                 <div style={{ position: "relative", aspectRatio: "16/10", overflow: "hidden", background: "#0a0b0a" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`/images/${p.img}`} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) contrast(1.12) brightness(0.9)", zIndex: 0 }} />
+                  <img src={imgSrc(p.img)} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) contrast(1.12) brightness(0.9)", zIndex: 0 }} />
                   <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "var(--ac,#c7f536)", mixBlendMode: "multiply", opacity: 0.4, pointerEvents: "none" }} />
                   <div style={{ position: "absolute", inset: 0, zIndex: 2, background: "repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0 1px, transparent 1px 3px)", pointerEvents: "none" }} />
                   <div style={{ position: "absolute", inset: 0, zIndex: 2, background: "radial-gradient(130% 100% at 50% 0%, transparent 38%, rgba(0,0,0,0.62))", pointerEvents: "none" }} />

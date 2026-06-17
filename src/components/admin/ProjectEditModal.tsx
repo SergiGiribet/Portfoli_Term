@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { upsertProject, deleteProject } from "@/app/actions/projects";
 import type { ProjectFlat } from "@/app/actions/projects";
+import { imgSrc } from "@/lib/imgSrc";
 
 const AC   = "var(--ac,#c7f536)";
 const PINK = "var(--pink,#ff2d8e)";
@@ -53,8 +54,10 @@ export default function ProjectEditModal({ project, nextOrder, onClose, onSaved 
   const [lang, setLang] = useState<LangTab>("CAT");
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState(() => {
     if (!project) return emptyForm(nextOrder);
@@ -80,6 +83,21 @@ export default function ProjectEditModal({ project, nextOrder, onClose, onSaved 
   });
 
   const set = (k: string, v: string | number) => setForm((f) => ({ ...f, [k]: v }));
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true); setError("");
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      const r = await fetch("/api/upload", { method: "POST", body: fd });
+      const body = await r.json() as { url?: string; error?: string };
+      if (!r.ok || !body.url) { setError(body.error ?? "error pujant imatge"); }
+      else set("img", body.url);
+    } catch { setError("error de xarxa pujant imatge"); }
+    setUploading(false);
+  };
 
   const handleSave = async () => {
     if (!form.no || !form.name) { setError("no i name son obligatoris"); return; }
@@ -187,8 +205,23 @@ export default function ProjectEditModal({ project, nextOrder, onClose, onSaved 
               <Field label="HREF (URL REPO)">
                 <input style={{ ...inputStyle, gridColumn: "1 / -1" }} value={form.href} onChange={(e) => set("href", e.target.value)} placeholder="https://github.com/..." />
               </Field>
-              <Field label="IMG (nom fitxer a /public/images/)">
-                <input style={inputStyle} value={form.img} onChange={(e) => set("img", e.target.value)} placeholder="p7.png" />
+              <Field label="IMATGE">
+                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} style={{ display: "none" }} />
+                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                  {form.img && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={imgSrc(form.img)} alt="" style={{ width: 60, height: 40, objectFit: "cover", border: "1px solid #2a2c2a", filter: "grayscale(1)" }} />
+                  )}
+                  <button
+                    type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading}
+                    style={{ background: "none", border: `1px solid ${AC}`, cursor: "pointer", padding: "7px 12px", fontFamily: mono, fontSize: 9, letterSpacing: "0.16em", color: "var(--ac,#c7f536)", whiteSpace: "nowrap", opacity: uploading ? 0.6 : 1 }}
+                  >{uploading ? "PUJANT…" : form.img ? "CANVIAR IMATGE" : "PUJAR IMATGE"}</button>
+                  {form.img && (
+                    <span style={{ fontFamily: mono, fontSize: 9, color: "#8a8d83", wordBreak: "break-all", flex: 1 }}>
+                      {form.img.startsWith("http") ? "✓ pujada" : form.img}
+                    </span>
+                  )}
+                </div>
               </Field>
               <Field label="TAGS (separats per coma)">
                 <input style={inputStyle} value={form.tags} onChange={(e) => set("tags", e.target.value)} placeholder="TypeScript, React, Node.js" />

@@ -27,6 +27,8 @@ interface Store {
   cvOpen: boolean;
   setCvOpen: (v: boolean) => void;
   langFxKey: number;
+  isAdmin: boolean;
+  setAdmin: (v: boolean) => void;
 }
 
 const Ctx = createContext<Store | null>(null);
@@ -54,6 +56,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [detailIdx, setDetailIdx] = useState<number | null>(null);
   const [cvOpen, setCvOpen] = useState(false);
   const [langFxKey, setLangFxKey] = useState(0);
+  const [isAdmin, setAdmin] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -103,6 +106,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         cvOpen,
         setCvOpen,
         langFxKey,
+        isAdmin,
+        setAdmin,
       }}
     >
       {children}

@@ -22,10 +22,11 @@ function welcome(hint: string, hint2: string): Line[] {
 
 export default function Terminal() {
   const t = useTranslations("terminal");
-  const { lang, setLang, termOpen, setTermOpen, setCvOpen, setAccent } = useStore();
+  const { lang, setLang, termOpen, setTermOpen, setCvOpen, setAccent, isAdmin, setAdmin } = useStore();
   const [history, setHistory] = useState<Line[]>([]);
   const bodyRef  = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [awaitingPassword, setAwaitingPassword] = useState(false);
 
   useEffect(() => {
     if (termOpen) {
@@ -38,7 +39,7 @@ export default function Terminal() {
     setTimeout(() => { const b = bodyRef.current; if (b) b.scrollTop = b.scrollHeight; }, 10);
   };
 
-  const runCmd = useCallback((raw: string) => {
+  const runCmd = useCallback(async (raw: string) => {
     const cmd   = raw.trim();
     const parts = cmd.split(/\s+/);
     const c     = (parts[0] || "").toLowerCase();
@@ -67,6 +68,7 @@ export default function Terminal() {
       out("  contact           channels & links");
       out("  lang <cat|es|en>  switch language");
       out("  time              system clock");
+      out("  theme <lime|pink|violet>  switch accent");
       out("  clear             clear screen");
       out("  exit              close terminal");
     } else if (c === "whoami") {
@@ -112,19 +114,52 @@ export default function Terminal() {
       const th = map[arg.toLowerCase()];
       if (th) { setAccent(th); out(`accent reconfigured → ${th.toUpperCase()}`, AC); }
       else out("usage: theme <lime|pink|violet>", PINK);
+    } else if (c === "login") {
+      if (isAdmin) {
+        out("already authenticated // ADMIN MODE ACTIVE", AC);
+      } else if (!arg) {
+        out("enter password:", AC);
+        setHistory((h) => [...h, ...lines]);
+        scrollBottom();
+        setAwaitingPassword(true);
+        return;
+      } else {
+        setHistory((h) => [...h, ...lines]);
+        scrollBottom();
+        try {
+          const r = await fetch("/api/auth", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: arg }) });
+          if (r.ok) { setAdmin(true); setHistory((h) => [...h, { text: "ACCESS GRANTED // ADMIN MODE", color: AC }]); }
+          else        { setHistory((h) => [...h, { text: "access denied", color: PINK }]); }
+        } catch { setHistory((h) => [...h, { text: "auth service unavailable", color: PINK }]); }
+        scrollBottom();
+        return;
+      }
+    } else if (c === "logout") {
+      if (isAdmin) {
+        await fetch("/api/auth", { method: "DELETE" });
+        setAdmin(false);
+        out("session terminated", AC);
+      } else {
+        out("not authenticated", PINK);
+      }
     } else {
       out(`command not found: ${c} — type 'help'`, PINK);
     }
 
     setHistory((h) => [...h, ...lines]);
     scrollBottom();
-  }, [lang, setCvOpen, setLang, setTermOpen, setAccent]);
+  }, [lang, isAdmin, setAdmin, setCvOpen, setLang, setTermOpen, setAccent]);
 
   const onKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
     const val = e.currentTarget.value;
     e.currentTarget.value = "";
-    runCmd(val);
+    if (awaitingPassword) {
+      setAwaitingPassword(false);
+      runCmd(`login ${val}`);
+    } else {
+      runCmd(val);
+    }
   };
 
   if (!termOpen) return null;
@@ -158,8 +193,9 @@ export default function Terminal() {
           <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12.5, color: "var(--ac,#c7f536)", whiteSpace: "nowrap" }}>girquell@dev:~$</span>
           <input
             ref={inputRef} onKeyDown={onKey}
+            type={awaitingPassword ? "password" : "text"}
             spellCheck={false} autoComplete="off"
-            placeholder={t("hint")}
+            placeholder={awaitingPassword ? "••••••••" : t("hint")}
             style={{ flex: 1, background: "none", border: "none", outline: "none", color: "#e8e9e4", fontFamily: "'JetBrains Mono',monospace", fontSize: 12.5, letterSpacing: "0.02em" }}
           />
         </div>

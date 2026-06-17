@@ -9,7 +9,7 @@ const SECTIONS = ["top", "profile", "work", "contact"] as const;
 
 export default function Nav() {
   const t = useTranslations();
-  const { lang, setLang, activeSection, setActiveSection, termOpen, setTermOpen } = useStore();
+  const { lang, setLang, activeSection, setActiveSection, termOpen, setTermOpen, isAdmin } = useStore();
 
   const ac  = "var(--ac,#c7f536)";
   const dim = "#9a9d96";
@@ -98,6 +98,9 @@ export default function Nav() {
           <button {...langBtn("EN")}>EN</button>
         </div>
 
+        {isAdmin && (
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.18em", color: "#0a0b0a", background: "var(--pink,#ff2d8e)", padding: "3px 7px", textTransform: "uppercase" }}>ADMIN</span>
+        )}
         <div style={{ display: "flex", alignItems: "center", gap: 7, color: "#8a8d83" }}>
           <span className="animate-gq-blink" style={{ width: 7, height: 7, borderRadius: "50%", background: ac, display: "inline-block" }} />
           <span style={{ fontSize: 9, letterSpacing: "0.2em" }}>{t("status")}</span>

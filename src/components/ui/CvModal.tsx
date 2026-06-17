@@ -24,26 +24,41 @@ export default function CvModal() {
     const clone = panel.cloneNode(true) as HTMLElement;
     clone.id = "gq-cv-print";
 
-    const actions = clone.querySelector(".gq-cv-actions");
-    if (actions) actions.remove();
+    clone.querySelector(".gq-cv-actions")?.remove();
 
-    clone.style.setProperty("--ac", printAcc);
-    clone.querySelectorAll<HTMLElement>("*").forEach((el) => {
-      const inline = el.getAttribute("style") || "";
-      if (inline.includes("var(--ac")) { el.style.fontWeight = "700"; }
-      else if (/color\s*:/.test(inline)) {
-        const m = getComputedStyle(el).color.match(/\d+/g);
-        if (m) {
-          const [r, g, b] = m.map(Number);
-          if (0.299 * r + 0.587 * g + 0.114 * b > 110) el.style.color = "#1e2118";
-        }
-      }
+    // Walk every element and rewrite inline styles for a light print theme.
+    // We check the raw inline style string directly — getComputedStyle is
+    // unreliable on off-screen clones before the browser has painted them.
+    [clone, ...Array.from(clone.querySelectorAll<HTMLElement>("*"))].forEach((el) => {
+      const s = el.getAttribute("style") ?? "";
+
+      // Strip dark-theme chrome
       el.style.background = "transparent";
+      el.style.backgroundColor = "transparent";
       el.style.boxShadow = "none";
       el.style.textShadow = "none";
-      el.style.borderColor = "#d4d4d4";
+      el.style.backdropFilter = "none";
+      el.style.animation = "none";
+
+      // Hairline borders → light grey
+      if (s.includes("border")) el.style.borderColor = "#d4d4d4";
+
+      // Text colours: accent → printAcc+bold, everything else → dark ink.
+      // In the dark theme every non-accent inline colour is a light shade
+      // (#edeee8, #cfd2ca, #9a9d96, #8a8d83 …) so we can safely invert all.
+      if (s.includes("color")) {
+        if (s.includes("var(--ac")) {
+          el.style.color = printAcc;
+          el.style.fontWeight = "700";
+        } else {
+          el.style.color = "#1e2118";
+        }
+      }
     });
+
+    // White paper background on the root clone
     clone.style.background = "#ffffff";
+    clone.style.color = "#1e2118";
 
     const holder = document.createElement("div");
     holder.id = "gq-print-holder";

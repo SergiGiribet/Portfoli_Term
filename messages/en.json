@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "index":   "Index",
+    "profile": "Profile",
+    "work":    "Work",
+    "contact": "Contact"
+  },
+  "status": "ON BREAK",
+  "hero": {
+    "developer": "Multiplatform Developer",
+    "student":   "CS Engineering Student",
+    "founder":   "Founder @ DuckHats"
+  },
+  "sections": {
+    "profile": "PROFILE",
+    "work":    "SELECTED WORK",
+    "contact": "CONTACT"
+  },
+  "ui": {
+    "inspect":  "INSPECT",
+    "close":    "CLOSE",
+    "openRepo": "OPEN REPO",
+    "role":     "ROLE",
+    "year":     "YEAR",
+    "viewCv":   "VIEW CV",
+    "allRepos": "ARCHIVE // ALL REPOS ↗",
+    "scroll":   "SCROLL"
+  },
+  "terminal": {
+    "hint":    "type 'help' and Enter",
+    "welcome": "GIRQUELL.SYS terminal — v2",
+    "hint2":   "type 'help' to list commands · ESC to close"
+  },
+  "cv": {
+    "download": "DOWNLOAD PDF",
+    "close":    "CLOSE",
+    "profile":  "PROFILE",
+    "exp":      "EXPERIENCE",
+    "edu":      "EDUCATION",
+    "vol":      "VOLUNTEERING",
+    "skills":   "SKILLS",
+    "langs":    "LANGUAGES"
+  }
+}

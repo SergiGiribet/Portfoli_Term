@@ -1,18 +1,10 @@
 import rawContent from "../../content.json";
-import type { Content, Lang, Project, CvData, NavLabels, Bio, HeroRoles } from "@/types/content";
+import type { Content, Lang, Project, CvData, Bio } from "@/types/content";
 
 export const content = rawContent as Content;
 
-export function getNav(lang: Lang): NavLabels {
-  return content.nav[lang];
-}
-
 export function getBio(lang: Lang): Bio {
   return content.bio[lang];
-}
-
-export function getHeroRoles(lang: Lang): HeroRoles {
-  return content.hero.roles[lang];
 }
 
 export function getContact(lang: Lang): string {

@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "index":   "Índex",
+    "profile": "Perfil",
+    "work":    "Treballs",
+    "contact": "Contacte"
+  },
+  "status": "EN PAUSA",
+  "hero": {
+    "developer": "Desenvolupador Multiplataforma",
+    "student":   "Estudiant d'Eng. Informàtica",
+    "founder":   "Fundador @ DuckHats"
+  },
+  "sections": {
+    "profile": "PERFIL",
+    "work":    "TREBALLS",
+    "contact": "CONTACTE"
+  },
+  "ui": {
+    "inspect":  "INSPECT",
+    "close":    "TANCAR",
+    "openRepo": "OBRIR REPO",
+    "role":     "ROL",
+    "year":     "ANY",
+    "viewCv":   "VEURE CURRÍCULUM",
+    "allRepos": "ARXIU // TOTS ELS REPOS ↗",
+    "scroll":   "SCROLL"
+  },
+  "terminal": {
+    "hint":    "escriu 'help' i Enter",
+    "welcome": "GIRQUELL.SYS terminal — v2",
+    "hint2":   "escriu 'help' per veure comandos · ESC per tancar"
+  },
+  "cv": {
+    "download": "DESCARREGAR PDF",
+    "close":    "TANCAR",
+    "profile":  "PERFIL",
+    "exp":      "EXPERIÈNCIA",
+    "edu":      "EDUCACIÓ",
+    "vol":      "VOLUNTARIAT",
+    "skills":   "HABILITATS",
+    "langs":    "IDIOMES"
+  }
+}

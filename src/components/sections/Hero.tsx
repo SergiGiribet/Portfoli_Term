@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
-import { getBio, getHeroRoles } from "@/lib/content";
+import { getBio } from "@/lib/content";
 import { content } from "@/lib/content";
 
 export default function Hero() {
+  const t = useTranslations();
   const { lang } = useStore();
   const bio = getBio(lang);
-  const roles = getHeroRoles(lang);
   const { identity } = content;
 
   const [clock, setClock] = useState("--:--:-- UTC");
@@ -28,34 +29,29 @@ export default function Hero() {
   useEffect(() => {
     const img = imgRef.current;
     if (!img || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-
     let tx = 0, ty = 0, cx = 0, cy = 0;
     let raf: number;
-
     const onMove = (e: MouseEvent) => {
-      const p = img.parentElement;
-      if (!p) return;
+      const p = img.parentElement; if (!p) return;
       const r = p.getBoundingClientRect();
       tx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width / 2)));
       ty = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height / 2)));
     };
     const loop = () => {
-      cx += (tx - cx) * 0.07;
-      cy += (ty - cy) * 0.07;
+      cx += (tx - cx) * 0.07; cy += (ty - cy) * 0.07;
       if (imgRef.current) imgRef.current.style.transform = `scale(1.1) translate(${(cx * -3.4).toFixed(2)}%,${(cy * -3.4).toFixed(2)}%)`;
       raf = requestAnimationFrame(loop);
     };
-
     window.addEventListener("mousemove", onMove, { passive: true });
     raf = requestAnimationFrame(loop);
     return () => { cancelAnimationFrame(raf); window.removeEventListener("mousemove", onMove); };
   }, []);
 
+  // suppress bio usage warning — bio is used via content.json for editorial text
+  void bio;
+
   return (
-    <section
-      id="top"
-      style={{ position: "relative", minHeight: "100vh", boxSizing: "border-box", padding: "96px 28px 40px", display: "flex", flexDirection: "column", justifyContent: "center", scrollMarginTop: 60 }}
-    >
+    <section id="top" style={{ position: "relative", minHeight: "100vh", boxSizing: "border-box", padding: "96px 28px 40px", display: "flex", flexDirection: "column", justifyContent: "center", scrollMarginTop: 60 }}>
       {/* top HUD strip */}
       <div style={{ position: "absolute", top: 66, left: 28, right: 28, display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.2em", color: "#7e8178", textTransform: "uppercase" }}>
         <span>PORTFOLIO_FILE // NM·00</span>
@@ -70,11 +66,8 @@ export default function Hero() {
         <div style={{ position: "absolute", bottom: -14, left: -10, width: 24, height: 24, borderBottom: "1px solid #3a3d3a", borderLeft: "1px solid #3a3d3a" }} />
         <div style={{ position: "absolute", bottom: -14, right: -10, width: 24, height: 24, borderBottom: "1px solid #3a3d3a", borderRight: "1px solid #3a3d3a" }} />
 
-        <div
-          className="gq-hero-grid"
-          style={{ display: "grid", gridTemplateColumns: "1.55fr 1fr", gap: 40, alignItems: "center" }}
-        >
-          {/* LEFT: identity */}
+        <div className="gq-hero-grid" style={{ display: "grid", gridTemplateColumns: "1.55fr 1fr", gap: 40, alignItems: "center" }}>
+          {/* LEFT */}
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.24em", color: "#8a8d83", textTransform: "uppercase" }}>
               <span style={{ color: "var(--ac,#c7f536)" }}>●</span>
@@ -97,15 +90,9 @@ export default function Hero() {
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 30 }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#cfd2ca", border: "1px solid #2a2c2a", padding: "7px 12px" }}>
-                {roles.developer}
-              </span>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#cfd2ca", border: "1px solid #2a2c2a", padding: "7px 12px" }}>
-                {roles.student}
-              </span>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#0a0b0a", background: "var(--ac,#c7f536)", padding: "7px 12px", fontWeight: 700 }}>
-                {roles.founder}
-              </span>
+              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#cfd2ca", border: "1px solid #2a2c2a", padding: "7px 12px" }}>{t("hero.developer")}</span>
+              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#cfd2ca", border: "1px solid #2a2c2a", padding: "7px 12px" }}>{t("hero.student")}</span>
+              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#0a0b0a", background: "var(--ac,#c7f536)", padding: "7px 12px", fontWeight: 700 }}>{t("hero.founder")}</span>
             </div>
           </div>
 
@@ -138,7 +125,7 @@ export default function Hero() {
 
       {/* scroll cue */}
       <div className="animate-gq-float" style={{ position: "absolute", bottom: 22, left: "50%", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.3em", color: "#7e8178" }}>
-        <span>SCROLL</span>
+        <span>{t("ui.scroll")}</span>
         <span style={{ color: "var(--ac,#c7f536)" }}>↓</span>
       </div>
 

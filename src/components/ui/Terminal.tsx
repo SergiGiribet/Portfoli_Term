@@ -48,7 +48,8 @@ export default function Terminal() {
     const projects = getProjects(lang);
     const bio      = getBio(lang);
 
-    const lines: Line[] = [{ text: `girquell@dev:~$ ${cmd}`, color: "#e8e9e4" }];
+    const echoCmd = (c === "login" && arg) ? "login ••••••••" : cmd;
+    const lines: Line[] = [{ text: `girquell@dev:~$ ${echoCmd}`, color: "#e8e9e4" }];
     const out = (text: string, color?: string) => lines.push({ text, color: color || "#9a9d96" });
 
     if (!cmd) {

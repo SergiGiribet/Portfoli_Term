@@ -17,3 +17,6 @@ build/
 # typescript
 tsconfig.tsbuildinfo
 next-env.d.ts
+
+# claude code internals
+.claude/

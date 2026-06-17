@@ -64,6 +64,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setAccentState(
       readStorage<Accent>("gq_accent", ["Lime", "Pink", "Violet"], "Lime")
     );
+    // Restore admin session if a valid Supabase cookie exists
+    fetch("/api/auth")
+      .then((r) => r.json())
+      .then((d) => { if (d.authenticated) setAdmin(true); })
+      .catch(() => {});
     setMounted(true);
   }, []);
 

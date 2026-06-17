@@ -14,7 +14,17 @@ export default function Work() {
   const t = useTranslations();
   const { lang, openDetail, isAdmin } = useStore();
   const [projects, setProjects] = useState<ProjectFlat[]>(() =>
-    getProjects(lang).map((p, i) => ({ ...p, id: `static-${i}` }))
+    getProjects(lang).map((p, i) => ({
+      ...p,
+      id:         `static-${i}`,
+      sort_order: i + 1,
+      desc_cat:   p.desc.CAT,
+      desc_es:    p.desc.ES,
+      desc_en:    p.desc.EN,
+      long_cat:   p.long.CAT,
+      long_es:    p.long.ES,
+      long_en:    p.long.EN,
+    }))
   );
   const [editProject, setEditProject] = useState<ProjectFlat | null | "new">(null);
 

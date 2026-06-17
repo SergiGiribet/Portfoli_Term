@@ -72,13 +72,13 @@ export default function ProjectEditModal({ project, nextOrder, onClose, onSaved 
       href:       project.href,
       img:        project.img,
       tags:       project.tags.join(", "),
-      sort_order: nextOrder,
-      desc_cat:   (project as any).desc_cat ?? "",
-      desc_es:    (project as any).desc_es  ?? "",
-      desc_en:    (project as any).desc_en  ?? "",
-      long_cat:   (project as any).long_cat ?? "",
-      long_es:    (project as any).long_es  ?? "",
-      long_en:    (project as any).long_en  ?? "",
+      sort_order: project.sort_order,
+      desc_cat:   project.desc_cat ?? "",
+      desc_es:    project.desc_es  ?? "",
+      desc_en:    project.desc_en  ?? "",
+      long_cat:   project.long_cat ?? "",
+      long_es:    project.long_es  ?? "",
+      long_en:    project.long_en  ?? "",
     };
   });
 

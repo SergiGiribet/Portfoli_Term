@@ -4,56 +4,79 @@ import type { Lang } from "@/types/content";
 import type { ProjectRow } from "./types";
 
 export type ProjectFlat = {
-  id:    string;
-  no:    string;
-  org:   string;
-  cjk:   string;
-  kind:  string;
-  img:   string;
-  href:  string;
-  tags:  string[];
-  role:  string;
-  year:  string;
-  name:  string;
+  id:         string;
+  no:         string;
+  org:        string;
+  cjk:        string;
+  kind:       string;
+  img:        string;
+  href:       string;
+  tags:       string[];
+  role:       string;
+  year:       string;
+  name:       string;
+  sort_order: number;
+  // resolved for current lang
   descL: string;
   longL: string;
+  // raw multilingual (needed by admin modal)
+  desc_cat: string;
+  desc_es:  string;
+  desc_en:  string;
+  long_cat: string;
+  long_es:  string;
+  long_en:  string;
 };
 
 function rowToFlat(row: ProjectRow, lang: Lang): ProjectFlat {
   const desc = { CAT: row.desc_cat, ES: row.desc_es, EN: row.desc_en };
   const long = { CAT: row.long_cat, ES: row.long_es, EN: row.long_en };
   return {
-    id:    row.id,
-    no:    row.no,
-    org:   row.org,
-    cjk:   row.cjk,
-    kind:  row.kind,
-    img:   row.img,
-    href:  row.href,
-    tags:  row.tags,
-    role:  row.role,
-    year:  row.year,
-    name:  row.name,
-    descL: desc[lang] || desc.EN,
-    longL: long[lang] || long.EN,
+    id:         row.id,
+    no:         row.no,
+    org:        row.org,
+    cjk:        row.cjk,
+    kind:       row.kind,
+    img:        row.img,
+    href:       row.href,
+    tags:       row.tags,
+    role:       row.role,
+    year:       row.year,
+    name:       row.name,
+    sort_order: row.sort_order,
+    descL:      desc[lang] || desc.EN,
+    longL:      long[lang] || long.EN,
+    desc_cat:   row.desc_cat,
+    desc_es:    row.desc_es,
+    desc_en:    row.desc_en,
+    long_cat:   row.long_cat,
+    long_es:    row.long_es,
+    long_en:    row.long_en,
   };
 }
 
 function staticFallback(lang: Lang): ProjectFlat[] {
   return content.projects.map((p, i) => ({
-    id:    `static-${i}`,
-    no:    p.no,
-    org:   p.org,
-    cjk:   p.cjk,
-    kind:  p.kind,
-    img:   p.img,
-    href:  p.href,
-    tags:  p.tags,
-    role:  p.role,
-    year:  p.year,
-    name:  p.name,
-    descL: p.desc[lang] || p.desc.EN,
-    longL: p.long[lang] || p.long.EN,
+    id:         `static-${i}`,
+    no:         p.no,
+    org:        p.org,
+    cjk:        p.cjk,
+    kind:       p.kind,
+    img:        p.img,
+    href:       p.href,
+    tags:       p.tags,
+    role:       p.role,
+    year:       p.year,
+    name:       p.name,
+    sort_order: i + 1,
+    descL:      p.desc[lang] || p.desc.EN,
+    longL:      p.long[lang] || p.long.EN,
+    desc_cat:   p.desc.CAT,
+    desc_es:    p.desc.ES,
+    desc_en:    p.desc.EN,
+    long_cat:   p.long.CAT,
+    long_es:    p.long.ES,
+    long_en:    p.long.EN,
   }));
 }
 

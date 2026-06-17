@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
 import { getProjects } from "@/lib/content";
 
 export default function DetailPanel() {
+  const t = useTranslations();
   const { lang, detailIdx, closeDetail } = useStore();
   const projects = getProjects(lang);
   const p = detailIdx !== null ? projects[detailIdx] : null;
@@ -35,9 +37,7 @@ export default function DetailPanel() {
             style={{ background: "none", border: "1px solid #2a2c2a", cursor: "pointer", padding: "4px 9px", fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", color: "#cfd2ca", transition: "all .2s" }}
             onMouseEnter={(e) => { const b = e.currentTarget; b.style.color = "#0a0b0a"; b.style.background = "var(--pink,#ff2d8e)"; b.style.borderColor = "var(--pink,#ff2d8e)"; }}
             onMouseLeave={(e) => { const b = e.currentTarget; b.style.color = "#cfd2ca"; b.style.background = "none"; b.style.borderColor = "#2a2c2a"; }}
-          >
-            CLOSE ✕
-          </button>
+          >{t("ui.close")} ✕</button>
         </div>
 
         {/* hero image */}
@@ -56,30 +56,26 @@ export default function DetailPanel() {
           <p style={{ margin: "0 0 22px", fontFamily: "'Chakra Petch',sans-serif", fontSize: "clamp(15px,1.8vw,18px)", lineHeight: 1.65, color: "#cfd2ca" }}>{p.longL}</p>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 12, marginBottom: 22 }}>
-            {[{ label: "ROLE", val: p.role }, { label: "YEAR", val: p.year }].map(({ label, val }) => (
-              <div key={label} style={{ border: "1px solid #2a2c2a", padding: "11px 14px" }}>
-                <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.2em", color: "#8a8d83", marginBottom: 4 }}>{label}</div>
+            {([["ui.role", p.role], ["ui.year", p.year]] as const).map(([key, val]) => (
+              <div key={key} style={{ border: "1px solid #2a2c2a", padding: "11px 14px" }}>
+                <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.2em", color: "#8a8d83", marginBottom: 4 }}>{t(key)}</div>
                 <div style={{ fontFamily: "'Chakra Petch',sans-serif", fontWeight: 600, fontSize: 15, color: "#e8e9e4" }}>{val}</div>
               </div>
             ))}
           </div>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: 24 }}>
-            {p.tags.map((t) => (
-              <span key={t} style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", color: "#cfd2ca", border: "1px solid #2a2c2a", padding: "5px 9px" }}>{t}</span>
+            {p.tags.map((tag) => (
+              <span key={tag} style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", color: "#cfd2ca", border: "1px solid #2a2c2a", padding: "5px 9px" }}>{tag}</span>
             ))}
           </div>
 
           <a
-            href={p.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={p.href} target="_blank" rel="noopener noreferrer"
             style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "12px 18px", background: "var(--ac,#c7f536)", color: "#0a0b0a", textDecoration: "none", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.18em", fontWeight: 700, textTransform: "uppercase", transition: "background .2s" }}
             onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "var(--ac,#c7f536)"; }}
-          >
-            OPEN REPO ↗
-          </a>
+          >{t("ui.openRepo")} ↗</a>
         </div>
       </div>
     </div>

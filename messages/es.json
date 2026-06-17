@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "index":   "Índice",
+    "profile": "Perfil",
+    "work":    "Proyectos",
+    "contact": "Contacto"
+  },
+  "status": "EN PAUSA",
+  "hero": {
+    "developer": "Desarrollador Multiplataforma",
+    "student":   "Estudiante de Ing. Informática",
+    "founder":   "Fundador @ DuckHats"
+  },
+  "sections": {
+    "profile": "PERFIL",
+    "work":    "PROYECTOS",
+    "contact": "CONTACTO"
+  },
+  "ui": {
+    "inspect":  "INSPECT",
+    "close":    "CERRAR",
+    "openRepo": "ABRIR REPO",
+    "role":     "ROL",
+    "year":     "AÑO",
+    "viewCv":   "VER CURRÍCULUM",
+    "allRepos": "ARCHIVO // TODOS LOS REPOS ↗",
+    "scroll":   "SCROLL"
+  },
+  "terminal": {
+    "hint":    "escribe 'help' y Enter",
+    "welcome": "GIRQUELL.SYS terminal — v2",
+    "hint2":   "escribe 'help' para ver comandos · ESC para cerrar"
+  },
+  "cv": {
+    "download": "DESCARGAR PDF",
+    "close":    "CERRAR",
+    "profile":  "PERFIL",
+    "exp":      "EXPERIENCIA",
+    "edu":      "EDUCACIÓN",
+    "vol":      "VOLUNTARIADO",
+    "skills":   "HABILIDADES",
+    "langs":    "IDIOMAS"
+  }
+}

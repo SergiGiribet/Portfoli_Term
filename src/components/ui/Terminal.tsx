@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
 import { getProjects, getBio } from "@/lib/content";
 import { content } from "@/lib/content";
@@ -8,18 +9,19 @@ import type { Lang } from "@/types/content";
 
 interface Line { text: string; color?: string }
 
-const AC  = "var(--ac,#c7f536)";
-const PINK = "var(--pink,#ff2d8e)";
+const AC   = "var(--ac,#c7f536)";
+const PINK  = "var(--pink,#ff2d8e)";
 
-function welcome(): Line[] {
+function welcome(hint: string, hint2: string): Line[] {
   return [
-    { text: "GIRQUELL.SYS terminal — v2", color: "#cfd2ca" },
-    { text: "type 'help' to list commands · ESC to close", color: "#8a8d83" },
+    { text: hint,  color: "#cfd2ca" },
+    { text: hint2, color: "#8a8d83" },
     { text: "" },
   ];
 }
 
 export default function Terminal() {
+  const t = useTranslations("terminal");
   const { lang, setLang, termOpen, setTermOpen, setCvOpen, setAccent } = useStore();
   const [history, setHistory] = useState<Line[]>([]);
   const bodyRef  = useRef<HTMLDivElement>(null);
@@ -27,25 +29,26 @@ export default function Terminal() {
 
   useEffect(() => {
     if (termOpen) {
-      setHistory((h) => h.length ? h : welcome());
+      setHistory((h) => h.length ? h : welcome(t("welcome"), t("hint2")));
       setTimeout(() => { inputRef.current?.focus(); scrollBottom(); }, 40);
     }
-  }, [termOpen]);
+  }, [termOpen, t]);
 
   const scrollBottom = () => {
     setTimeout(() => { const b = bodyRef.current; if (b) b.scrollTop = b.scrollHeight; }, 10);
   };
 
   const runCmd = useCallback((raw: string) => {
-    const cmd = raw.trim();
+    const cmd   = raw.trim();
     const parts = cmd.split(/\s+/);
-    const c = (parts[0] || "").toLowerCase();
-    const arg = parts.slice(1).join(" ").trim();
+    const c     = (parts[0] || "").toLowerCase();
+    const arg   = parts.slice(1).join(" ").trim();
+
     const projects = getProjects(lang);
-    const bio = getBio(lang);
+    const bio      = getBio(lang);
 
     const lines: Line[] = [{ text: `girquell@dev:~$ ${cmd}`, color: "#e8e9e4" }];
-    const out = (t: string, color?: string) => lines.push({ text: t, color: color || "#9a9d96" });
+    const out = (text: string, color?: string) => lines.push({ text, color: color || "#9a9d96" });
 
     if (!cmd) {
       /* blank */
@@ -70,13 +73,10 @@ export default function Terminal() {
       out("Sergi Giribet // GIRQUELL", AC);
       out("Multiplatform developer · CS Engineering student · Founder @ DuckHats");
     } else if (c === "about" || c === "profile") {
-      out(bio.p1);
-      out("");
-      out(bio.p2);
+      out(bio.p1); out(""); out(bio.p2);
     } else if (c === "cv" || c === "resume") {
       out("opening curriculum …", AC);
-      setCvOpen(true);
-      setTermOpen(false);
+      setCvOpen(true); setTermOpen(false);
       return;
     } else if (c === "stack") {
       content.stack.forEach((s) => out(`  ${s.label.padEnd(14)} ${s.items}`, "#cfd2ca"));
@@ -97,29 +97,21 @@ export default function Terminal() {
       content.channels.forEach((ch) => out(`  ${ch.label.padEnd(11)} ${ch.val}  → ${ch.href}`, "#cfd2ca"));
     } else if (c === "lang") {
       const l = arg.toUpperCase() as Lang;
-      if (["CAT", "ES", "EN"].includes(l)) {
-        out(`language → ${l}`, AC);
-        setLang(l);
-      } else {
-        out("usage: lang <cat|es|en>", PINK);
-      }
+      if (["CAT", "ES", "EN"].includes(l)) { out(`language → ${l}`, AC); setLang(l); }
+      else out("usage: lang <cat|es|en>", PINK);
     } else if (c === "time" || c === "date") {
       out(new Date().toUTCString());
     } else if (c === "sudo") {
       out("permission denied — you are already the operator.", PINK);
     } else if (c === "exit" || c === "close" || c === "quit") {
-      setTermOpen(false);
-      return;
+      setTermOpen(false); return;
     } else if (c === "echo") {
       out(arg);
     } else if (c === "theme") {
-      const t = ({ lime: "Lime", pink: "Pink", violet: "Violet" } as Record<string, string>)[arg.toLowerCase()];
-      if (t) {
-        setAccent(t as "Lime" | "Pink" | "Violet");
-        out(`accent reconfigured → ${t.toUpperCase()}`, AC);
-      } else {
-        out("usage: theme <lime|pink|violet>", PINK);
-      }
+      const map: Record<string, "Lime" | "Pink" | "Violet"> = { lime: "Lime", pink: "Pink", violet: "Violet" };
+      const th = map[arg.toLowerCase()];
+      if (th) { setAccent(th); out(`accent reconfigured → ${th.toUpperCase()}`, AC); }
+      else out("usage: theme <lime|pink|violet>", PINK);
     } else {
       out(`command not found: ${c} — type 'help'`, PINK);
     }
@@ -146,34 +138,28 @@ export default function Terminal() {
         onClick={(e) => e.stopPropagation()}
         style={{ width: "100%", maxWidth: 840, height: "min(58vh,440px)", margin: "0 14px", background: "#08090a", border: "1px solid #2a2c2a", borderBottom: "none", display: "flex", flexDirection: "column", boxShadow: "0 -24px 70px -24px rgba(0,0,0,0.85)", animation: "gq-rise .22s ease both" }}
       >
-        {/* title bar */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "9px 14px", borderBottom: "1px solid #1c1e1c", fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.14em", color: "#8a8d83" }}>
           <span><span style={{ color: "var(--ac,#c7f536)" }}>●</span> girquell@dev — /portfolio</span>
           <button
-            onClick={() => setTermOpen(false)}
-            aria-label="Close terminal"
+            onClick={() => setTermOpen(false)} aria-label="Close terminal"
             style={{ background: "none", border: "none", cursor: "pointer", padding: "2px 6px", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: "#8a8d83", transition: "color .2s" }}
             onMouseEnter={(e) => { e.currentTarget.style.color = "var(--pink,#ff2d8e)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = "#8a8d83"; }}
           >✕</button>
         </div>
 
-        {/* output */}
         <div ref={bodyRef} style={{ flex: 1, overflowY: "auto", padding: 14, fontFamily: "'JetBrains Mono',monospace", fontSize: 12.5, lineHeight: 1.7 }}>
           {history.map((ln, i) => (
             <div key={i} style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", color: ln.color || "#9a9d96" }}>{ln.text}</div>
           ))}
         </div>
 
-        {/* input row */}
         <div style={{ display: "flex", alignItems: "center", gap: 9, padding: "11px 14px", borderTop: "1px solid #1c1e1c" }}>
           <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12.5, color: "var(--ac,#c7f536)", whiteSpace: "nowrap" }}>girquell@dev:~$</span>
           <input
-            ref={inputRef}
-            onKeyDown={onKey}
-            spellCheck={false}
-            autoComplete="off"
-            placeholder="type 'help' and Enter"
+            ref={inputRef} onKeyDown={onKey}
+            spellCheck={false} autoComplete="off"
+            placeholder={t("hint")}
             style={{ flex: 1, background: "none", border: "none", outline: "none", color: "#e8e9e4", fontFamily: "'JetBrains Mono',monospace", fontSize: 12.5, letterSpacing: "0.02em" }}
           />
         </div>

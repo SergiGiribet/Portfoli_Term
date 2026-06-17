@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
 import { getCv } from "@/lib/content";
 
 export default function CvModal() {
+  const t = useTranslations("cv");
   const { lang, cvOpen, setCvOpen, accent } = useStore();
   const cv = getCv(lang);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -110,7 +112,7 @@ export default function CvModal() {
               onMouseEnter={(e) => { const b = e.currentTarget; b.style.background = "#fff"; b.style.borderColor = "#fff"; }}
               onMouseLeave={(e) => { const b = e.currentTarget; b.style.background = "var(--ac,#c7f536)"; b.style.borderColor = "var(--ac,#c7f536)"; }}
             >
-              {cv.ui.download} ↓
+              {t("download")} ↓
             </button>
             <button
               onClick={() => setCvOpen(false)}
@@ -118,7 +120,7 @@ export default function CvModal() {
               onMouseEnter={(e) => { const b = e.currentTarget; b.style.color = "#0a0b0a"; b.style.background = "var(--pink,#ff2d8e)"; b.style.borderColor = "var(--pink,#ff2d8e)"; }}
               onMouseLeave={(e) => { const b = e.currentTarget; b.style.color = "#cfd2ca"; b.style.background = "none"; b.style.borderColor = "#2a2c2a"; }}
             >
-              {cv.ui.close} ✕
+              {t("close")} ✕
             </button>
           </div>
         </div>
@@ -137,14 +139,14 @@ export default function CvModal() {
 
           {/* profile */}
           <div style={{ marginBottom: 26 }}>
-            <SectionHeader label={cv.ui.secProfile} />
+            <SectionHeader label={t("profile")} />
             <p style={{ margin: 0, fontFamily: "'Chakra Petch',sans-serif", fontSize: 15, lineHeight: 1.62, color: "#cfd2ca" }}>{cv.profile}</p>
           </div>
 
           {/* experience + education */}
           <div className="gq-cv-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 26 }}>
             <div>
-              <SectionHeader label={cv.ui.secExp} />
+              <SectionHeader label={t("exp")} />
               {cv.experience.map((e, i) => (
                 <div key={i} style={{ marginBottom: 15 }}>
                   <div style={{ fontFamily: "'Chakra Petch',sans-serif", fontWeight: 700, fontSize: 15, color: "#e8e9e4" }}>{e.role}</div>
@@ -154,7 +156,7 @@ export default function CvModal() {
               ))}
             </div>
             <div>
-              <SectionHeader label={cv.ui.secEdu} />
+              <SectionHeader label={t("edu")} />
               {cv.education.map((e, i) => (
                 <div key={i} style={{ marginBottom: 15 }}>
                   <div style={{ fontFamily: "'Chakra Petch',sans-serif", fontWeight: 700, fontSize: 15, color: "#e8e9e4" }}>{e.role}</div>
@@ -167,7 +169,7 @@ export default function CvModal() {
 
           {/* volunteering */}
           <div style={{ marginBottom: 26 }}>
-            <SectionHeader label={cv.ui.secVol} />
+            <SectionHeader label={t("vol")} />
             <div style={{ fontFamily: "'Chakra Petch',sans-serif", fontWeight: 700, fontSize: 15, color: "#e8e9e4" }}>
               {cv.volunteering.role} · <span style={{ color: "var(--ac,#c7f536)", fontWeight: 500 }}>{cv.volunteering.org}</span>
             </div>
@@ -177,7 +179,7 @@ export default function CvModal() {
 
           {/* skills */}
           <div style={{ marginBottom: 26 }}>
-            <SectionHeader label={cv.ui.secSkills} />
+            <SectionHeader label={t("skills")} />
             {cv.skills.map((s) => (
               <div key={s.k} style={{ display: "flex", gap: 14, padding: "9px 0", borderBottom: "1px solid #161816" }}>
                 <span style={{ flex: "0 0 128px", fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.14em", color: "#8a8d83" }}>{s.k}</span>
@@ -188,7 +190,7 @@ export default function CvModal() {
 
           {/* languages */}
           <div>
-            <SectionHeader label={cv.ui.secLang} />
+            <SectionHeader label={t("langs")} />
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {cv.languages.map((l) => (
                 <span key={l.k} style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.06em", color: "#cfd2ca", border: "1px solid #2a2c2a", padding: "7px 12px" }}>

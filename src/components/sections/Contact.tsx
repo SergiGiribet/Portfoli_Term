@@ -1,22 +1,22 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
-import { getContact, getNav } from "@/lib/content";
+import { getContact } from "@/lib/content";
 import { content } from "@/lib/content";
 
 export default function Contact() {
+  const t = useTranslations();
   const { lang, setCvOpen } = useStore();
   const contactLine = getContact(lang);
-  const nav = getNav(lang);
   const { channels, identity } = content;
 
   return (
     <section id="contact" style={{ position: "relative", maxWidth: 1280, margin: "0 auto", padding: "90px 28px 60px", scrollMarginTop: 60 }}>
-      {/* header */}
       <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 38, flexWrap: "wrap" }}>
         <span style={{ fontFamily: "'Archivo Black',sans-serif", fontSize: "clamp(34px,5vw,68px)", color: "#1c1e1c", lineHeight: 1 }}>*03</span>
         <div>
-          <h2 style={{ margin: 0, fontFamily: "'Chakra Petch',sans-serif", fontWeight: 700, fontSize: "clamp(24px,3.4vw,44px)", letterSpacing: "0.02em", color: "#edeee8" }}>{nav.contact.toUpperCase()}</h2>
+          <h2 style={{ margin: 0, fontFamily: "'Chakra Petch',sans-serif", fontWeight: 700, fontSize: "clamp(24px,3.4vw,44px)", letterSpacing: "0.02em", color: "#edeee8" }}>{t("sections.contact")}</h2>
           <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.26em", color: "var(--ac,#c7f536)" }}>接続 // OPEN CHANNEL</span>
         </div>
         <span style={{ flex: 1, height: 1, background: "#1c1e1c", transform: "translateY(-6px)", minWidth: 20 }} />
@@ -32,18 +32,13 @@ export default function Contact() {
           style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "13px 20px", background: "none", border: "1px solid var(--ac,#c7f536)", color: "var(--ac,#c7f536)", cursor: "pointer", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", transition: "all .2s" }}
           onMouseEnter={(e) => { const b = e.currentTarget; b.style.background = "var(--ac,#c7f536)"; b.style.color = "#0a0b0a"; }}
           onMouseLeave={(e) => { const b = e.currentTarget; b.style.background = "none"; b.style.color = "var(--ac,#c7f536)"; }}
-        >
-          VIEW CV ↗
-        </button>
+        >{t("ui.viewCv")} ↗</button>
       </div>
 
       <div className="gq-contact-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 14, marginBottom: 64 }}>
         {channels.map((c) => (
           <a
-            key={c.label}
-            href={c.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            key={c.label} href={c.href} target="_blank" rel="noopener noreferrer"
             style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 20px", border: "1px solid #2a2c2a", background: "#0e0f0e", textDecoration: "none", transition: "all 0.2s" }}
             onMouseEnter={(e) => { const a = e.currentTarget; a.style.borderColor = "var(--ac,#c7f536)"; a.style.background = "#111210"; }}
             onMouseLeave={(e) => { const a = e.currentTarget; a.style.borderColor = "#2a2c2a"; a.style.background = "#0e0f0e"; }}
@@ -67,9 +62,7 @@ export default function Contact() {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 620px) { .gq-contact-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
+      <style>{`@media (max-width: 620px) { .gq-contact-grid { grid-template-columns: 1fr !important; } }`}</style>
     </section>
   );
 }

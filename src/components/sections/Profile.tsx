@@ -1,22 +1,22 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
-import { getBio, getNav } from "@/lib/content";
+import { getBio } from "@/lib/content";
 import { content } from "@/lib/content";
 
 export default function Profile() {
+  const t = useTranslations();
   const { lang } = useStore();
   const bio  = getBio(lang);
-  const nav  = getNav(lang);
   const { dataSheet, stack } = content;
 
   return (
     <section id="profile" style={{ position: "relative", maxWidth: 1280, margin: "0 auto", padding: "80px 28px", scrollMarginTop: 60 }}>
-      {/* header */}
       <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 42, animation: "gq-rise both linear", animationTimeline: "view()", animationRange: "entry 0% cover 32%" }}>
         <span style={{ fontFamily: "'Archivo Black',sans-serif", fontSize: "clamp(34px,5vw,68px)", color: "#1c1e1c", lineHeight: 1 }}>*01</span>
         <div>
-          <h2 style={{ margin: 0, fontFamily: "'Chakra Petch',sans-serif", fontWeight: 700, fontSize: "clamp(24px,3.4vw,44px)", letterSpacing: "0.02em", color: "#edeee8" }}>{nav.profile.toUpperCase()}</h2>
+          <h2 style={{ margin: 0, fontFamily: "'Chakra Petch',sans-serif", fontWeight: 700, fontSize: "clamp(24px,3.4vw,44px)", letterSpacing: "0.02em", color: "#edeee8" }}>{t("sections.profile")}</h2>
           <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.26em", color: "var(--ac,#c7f536)" }}>プロフィール // SUBJECT FILE</span>
         </div>
         <span style={{ flex: 1, height: 1, background: "#1c1e1c", transform: "translateY(-6px)" }} />
@@ -60,9 +60,7 @@ export default function Profile() {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 860px) { .gq-profile-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
+      <style>{`@media (max-width: 860px) { .gq-profile-grid { grid-template-columns: 1fr !important; } }`}</style>
     </section>
   );
 }

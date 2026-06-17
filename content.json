@@ -1,0 +1,433 @@
+{
+  "identity": {
+    "displayName": "GIRQUELL",
+    "subName": "SERGI GIRIBET",
+    "slogan": "BORN TO USE. MADE TO CREATE.",
+    "heroImage": "subject.jpg",
+    "status": {
+      "CAT": "EN PAUSA",
+      "ES": "EN PAUSA",
+      "EN": "ON BREAK"
+    },
+    "location": "Girona, ES",
+    "coords": "41.97°N / 2.78°E",
+    "year": "2026"
+  },
+  "nav": {
+    "CAT": {
+      "index": "Índex",
+      "profile": "Perfil",
+      "work": "Treballs",
+      "contact": "Contacte"
+    },
+    "ES": {
+      "index": "Índice",
+      "profile": "Perfil",
+      "work": "Proyectos",
+      "contact": "Contacto"
+    },
+    "EN": {
+      "index": "Index",
+      "profile": "Profile",
+      "work": "Work",
+      "contact": "Contact"
+    }
+  },
+  "hero": {
+    "roles": {
+      "CAT": {
+        "developer": "Desenvolupador Multiplataforma",
+        "student": "Estudiant d'Eng. Informàtica",
+        "founder": "Fundador @ DuckHats"
+      },
+      "ES": {
+        "developer": "Desarrollador Multiplataforma",
+        "student": "Estudiante de Ing. Informática",
+        "founder": "Fundador @ DuckHats"
+      },
+      "EN": {
+        "developer": "Multiplatform Developer",
+        "student": "CS Engineering Student",
+        "founder": "Founder @ DuckHats"
+      }
+    }
+  },
+  "bio": {
+    "CAT": {
+      "p1": "Desenvolupador multiplataforma i estudiant d'Enginyeria Informàtica. Construeixo coses per a web, mòbil i maquinari — del frontend fins a la Raspberry Pi.",
+      "p2": "Fundador de DuckHats, on el codi seriós es troba amb el caos creatiu per deixar empremta."
+    },
+    "ES": {
+      "p1": "Desarrollador multiplataforma y estudiante de Ingeniería Informática. Construyo cosas para web, móvil y hardware — del frontend hasta la Raspberry Pi.",
+      "p2": "Fundador de DuckHats, donde el código serio se encuentra con el caos creativo para dejar huella."
+    },
+    "EN": {
+      "p1": "Multiplatform developer and Computer Engineering student. I build things for web, mobile and hardware — from the frontend down to the Raspberry Pi.",
+      "p2": "Founder of DuckHats, where serious code meets creative chaos to leave a mark."
+    }
+  },
+  "dataSheet": [
+    { "k": "STATUS", "v": "OPERATIONAL" },
+    { "k": "BASE",   "v": "CATALONIA, ES" },
+    { "k": "ROLE",   "v": "MULTIPLATFORM DEV" },
+    { "k": "STUDY",  "v": "CS ENGINEERING" },
+    { "k": "VENTURE","v": "DUCKHATS // FOUNDER" },
+    { "k": "STATE",  "v": "ON BREAK ☕" }
+  ],
+  "stack": [
+    { "label": "LANGUAGES",    "items": "JavaScript · TypeScript · HTML / CSS" },
+    { "label": "WEB / RUNTIME","items": "Node.js · React · REST" },
+    { "label": "SYSTEMS",      "items": "Raspberry Pi · Linux · IoT" },
+    { "label": "TOOLS",        "items": "Git · GitHub · Figma" }
+  ],
+  "projects": [
+    {
+      "no": "NM·01",
+      "org": "DUCKHATS",
+      "name": "Sushi Landing",
+      "kind": "BACKEND / API",
+      "cjk": "寿司",
+      "role": "Backend",
+      "year": "2024",
+      "tags": ["PHP", "Backend", "API"],
+      "href": "https://github.com/DuckHats/backend-landing-sushi",
+      "img": "p1.png",
+      "desc": {
+        "CAT": "Backend per a la landing d'un restaurant de sushi.",
+        "ES": "Backend para la landing de un restaurante de sushi.",
+        "EN": "Backend for a sushi restaurant landing page."
+      },
+      "long": {
+        "CAT": "Backend que dóna servei a la landing d'un restaurant de sushi — endpoints, gestió de dades i integració amb el front-end.",
+        "ES": "Backend que da servicio a la landing de un restaurante de sushi — endpoints, gestión de datos e integración con el front-end.",
+        "EN": "Server-side backend powering the landing site of a sushi restaurant — endpoints, data handling and integration with the front-end."
+      }
+    },
+    {
+      "no": "NM·02",
+      "org": "DUCKHATS",
+      "name": "food4ducks",
+      "kind": "WEB / PRODUCT",
+      "cjk": "出前",
+      "role": "Front-end",
+      "year": "2024",
+      "tags": ["HTML", "UI", "Web"],
+      "href": "https://github.com/DuckHats/demo-food4ducks-front",
+      "img": "p2.png",
+      "desc": {
+        "CAT": "Demo de front-end d'un producte de comandes de menjar.",
+        "ES": "Demo de front-end de un producto de pedidos de comida.",
+        "EN": "Food-ordering product front-end demo."
+      },
+      "long": {
+        "CAT": "Demo de front-end per a un producte de comandes de menjar: navegació de menú, flux de cistella i una interfície de comanda neta.",
+        "ES": "Demo de front-end para un producto de pedidos de comida: navegación de menú, flujo de carrito y una interfaz de pedido limpia.",
+        "EN": "Front-end demo for a food-ordering product: menu browsing, cart flow and a clean ordering UI."
+      }
+    },
+    {
+      "no": "NM·03",
+      "org": "DUCKHATS",
+      "name": "UdG Racing",
+      "kind": "WEB / FRONTEND",
+      "cjk": "競走",
+      "role": "Front-end",
+      "year": "2024",
+      "tags": ["TypeScript", "Frontend", "Web"],
+      "href": "https://github.com/DuckHats/web_udg_racing_front",
+      "img": "p3.png",
+      "desc": {
+        "CAT": "Front-end per al web de l'equip UdG Racing.",
+        "ES": "Front-end para la web del equipo UdG Racing.",
+        "EN": "Front-end for the UdG Racing team website."
+      },
+      "long": {
+        "CAT": "Front-end oficial de l'equip UdG Racing — presenta l'equip, el cotxe i la temporada en un lloc ràpid i responsive.",
+        "ES": "Front-end oficial del equipo UdG Racing — presenta el equipo, el coche y la temporada en un sitio rápido y responsive.",
+        "EN": "Official front-end for the UdG Racing team — presenting the team, the car and the season in a fast, responsive site."
+      }
+    },
+    {
+      "no": "NM·04",
+      "org": "DUCKHATS",
+      "name": "UVLHackEPS2025",
+      "kind": "AI / HACKATHON",
+      "cjk": "帽子",
+      "role": "Full-stack / AI",
+      "year": "2025",
+      "tags": ["PHP", "AI", "Web"],
+      "href": "https://github.com/DuckHats/UVLHackEPS2025",
+      "img": "p4.png",
+      "desc": {
+        "CAT": "App web d'IA — un \"Barret Seleccionador\" que classifica els barris de Los Angeles.",
+        "ES": "App web de IA — un \"Sombrero Seleccionador\" que clasifica los barrios de Los Ángeles.",
+        "EN": "AI web app — a \"Sorting Hat\" that classifies the neighborhoods of Los Angeles."
+      },
+      "long": {
+        "CAT": "Projecte de hackató: una app web amb IA, un \"Barret Seleccionador\" que classifica els barris de Los Angeles a partir de l'entrada de l'usuari.",
+        "ES": "Proyecto de hackathon: una app web con IA, un \"Sombrero Seleccionador\" que clasifica los barrios de Los Ángeles a partir de la entrada del usuario.",
+        "EN": "Hackathon project: an AI 'Sorting Hat' web app that classifies the neighborhoods of Los Angeles from user input."
+      }
+    },
+    {
+      "no": "NM·05",
+      "org": "PERSONAL",
+      "name": "GineryPI",
+      "kind": "HARDWARE / IOT",
+      "cjk": "温度",
+      "role": "Hardware / IoT",
+      "year": "2024",
+      "tags": ["JavaScript", "IoT", "Raspberry Pi"],
+      "href": "https://github.com/SergiGiribet/GineryPI",
+      "img": "p5.png",
+      "desc": {
+        "CAT": "Sistema de control de temperatura sobre una Raspberry Pi.",
+        "ES": "Sistema de control de temperatura sobre una Raspberry Pi.",
+        "EN": "Temperature control system running on a Raspberry Pi."
+      },
+      "long": {
+        "CAT": "Un sistema de control de temperatura sobre una Raspberry Pi — llegeix sensors i actua segons llindars en temps real.",
+        "ES": "Un sistema de control de temperatura sobre una Raspberry Pi — lee sensores y actúa según umbrales en tiempo real.",
+        "EN": "A temperature-control system running on a Raspberry Pi — reading sensors and acting on thresholds in real time."
+      }
+    },
+    {
+      "no": "NM·06",
+      "org": "PERSONAL",
+      "name": "google-SignIn",
+      "kind": "EXPERIMENT",
+      "cjk": "認証",
+      "role": "Auth / Security",
+      "year": "2023",
+      "tags": ["HTML", "Auth", "Security"],
+      "href": "https://github.com/SergiGiribet/google-SignIn",
+      "img": "p6.png",
+      "desc": {
+        "CAT": "Experiment d'autenticació i seguretat.",
+        "ES": "Experimento de autenticación y seguridad.",
+        "EN": "Authentication & security experiment."
+      },
+      "long": {
+        "CAT": "Un experiment que explora fluxos d'autenticació i seguretat, inclosa la integració de Google Sign-In.",
+        "ES": "Un experimento que explora flujos de autenticación y seguridad, incluida la integración de Google Sign-In.",
+        "EN": "An experiment exploring authentication and security flows, including Google Sign-In integration."
+      }
+    }
+  ],
+  "contact": {
+    "CAT": "Tens una idea, un projecte o ganes de construir? Parlem-ne.",
+    "ES": "¿Tienes una idea, un proyecto o ganas de construir? Hablemos.",
+    "EN": "Got an idea, a project or the itch to build? Let's talk."
+  },
+  "channels": [
+    { "label": "GITHUB",    "val": "@SergiGiribet", "href": "https://github.com/SergiGiribet" },
+    { "label": "ORG",       "val": "@DuckHats",     "href": "https://github.com/DuckHats" },
+    { "label": "STUDIO",    "val": "duckhats.cat",  "href": "https://duckhats.cat" },
+    { "label": "EMAIL",     "val": "info@duckhats.cat", "href": "mailto:info@duckhats.cat" },
+    { "label": "X",         "val": "@Hats4Ducks",   "href": "https://x.com/Hats4Ducks" },
+    { "label": "INSTAGRAM", "val": "@hats4_ducks",  "href": "https://instagram.com/hats4_ducks" }
+  ],
+  "cv": {
+    "CAT": {
+      "title": "CURRÍCULUM",
+      "sub": "履歴書 // OPERATOR FILE",
+      "name": "SERGI GIRIBET",
+      "tagline": "BORN TO USE. MADE TO CREATE.",
+      "location": "Girona, ES",
+      "phone": "+34 636 634 388",
+      "email": "sergi@giribet.cat",
+      "file": "sergi-giribet-cv-cat",
+      "ui": {
+        "download": "DESCARREGAR PDF",
+        "close": "TANCAR",
+        "secProfile": "PERFIL",
+        "secExp": "EXPERIÈNCIA",
+        "secEdu": "EDUCACIÓ",
+        "secVol": "VOLUNTARIAT",
+        "secSkills": "HABILITATS",
+        "secLang": "IDIOMES"
+      },
+      "profile": "Hola! Sóc un desenvolupador multiplataforma apassionat pel món de la codificació. Treballo amb tecnologies com React, Laravel, Node.js i altres eines modernes. M'agrada entendre com funcionen les coses i per què es construeixen tal com són, de vegades per curiositat, d'altres per necessitat. Quan no estic programant, probablement estic jugant a videojocs o escoltant música mentre faig una pluja d'idees sobre el meu proper projecte. Actualment estic buscant oportunitats per créixer com a professional i contribuir a equips amb ambició, talent i bon rotllo.",
+      "experience": [
+        {
+          "role": "Desenvolupador web — Pràctiques",
+          "org": "CROMLEC",
+          "meta": "Jun 2024 – Jul 2024 · Llinars del Vallès · Híbrid"
+        },
+        {
+          "role": "Auxiliar Informàtic — Jornada parcial",
+          "org": "Escola Ginebró",
+          "meta": "Jun 2023 – Jun 2024 · Llinars del Vallès · Presencial"
+        },
+        {
+          "role": "Auxiliar Informàtic — Pràctiques",
+          "org": "ICÓNICO",
+          "meta": "Gen 2023 – Jun 2023 · Cardedeu · Presencial"
+        }
+      ],
+      "education": [
+        {
+          "role": "Enginyeria Informàtica — Grau",
+          "org": "Universitat de Girona",
+          "meta": "Set 2025 – Actualitat"
+        },
+        {
+          "role": "Desenvolupament d'aplicacions multiplataforma (DAM) — CFGS",
+          "org": "Escola Ginebró",
+          "meta": "Set 2023 – Jun 2025 · Nota final 9.12"
+        }
+      ],
+      "volunteering": {
+        "role": "Voluntari",
+        "org": "Asperpol",
+        "meta": "Març 2021 – Maig 2023",
+        "desc": "ASPERPOL és una ONG de desenvolupament. Hi he col·laborat com a voluntari, preparant donacions de material per als seus projectes de desenvolupament internacional a Gàmbia."
+      },
+      "skills": [
+        { "k": "LLENGUATGES", "v": "PHP · TypeScript · HTML · CSS · JavaScript · C++ · SQL · JSON" },
+        { "k": "FRAMEWORKS",  "v": "React · Laravel · Node.js · Tailwind CSS" },
+        { "k": "EINES",       "v": "Git · Figma · Postman" },
+        { "k": "SOFT SKILLS", "v": "Aprenentatge autònom · Pensament lògic · Treball en equip · Comunicació · Gestió del temps · Atenció al detall · Curiositat tècnica" }
+      ],
+      "languages": [
+        { "k": "Català",   "v": "Nadiu" },
+        { "k": "Castellà", "v": "Nadiu" },
+        { "k": "Anglès",   "v": "Conversacional" }
+      ]
+    },
+    "ES": {
+      "title": "CURRÍCULUM",
+      "sub": "履歴書 // OPERATOR FILE",
+      "name": "SERGI GIRIBET",
+      "tagline": "BORN TO USE. MADE TO CREATE.",
+      "location": "Girona, ES",
+      "phone": "+34 636 634 388",
+      "email": "sergi@giribet.cat",
+      "file": "sergi-giribet-cv-es",
+      "ui": {
+        "download": "DESCARGAR PDF",
+        "close": "CERRAR",
+        "secProfile": "PERFIL",
+        "secExp": "EXPERIENCIA",
+        "secEdu": "EDUCACIÓN",
+        "secVol": "VOLUNTARIADO",
+        "secSkills": "HABILIDADES",
+        "secLang": "IDIOMAS"
+      },
+      "profile": "¡Hola! Soy un desarrollador multiplataforma apasionado por el mundo de la programación. Trabajo con tecnologías como React, Laravel, Node.js y otras herramientas modernas. Me gusta entender cómo funcionan las cosas y por qué se construyen como son, a veces por curiosidad, otras por necesidad. Cuando no estoy programando, probablemente estoy jugando a videojuegos o escuchando música mientras hago una lluvia de ideas sobre mi próximo proyecto. Actualmente busco oportunidades para crecer como profesional y contribuir a equipos con ambición, talento y buen rollo.",
+      "experience": [
+        {
+          "role": "Desarrollador web — Prácticas",
+          "org": "CROMLEC",
+          "meta": "Jun 2024 – Jul 2024 · Llinars del Vallès · Híbrido"
+        },
+        {
+          "role": "Auxiliar Informático — Jornada parcial",
+          "org": "Escola Ginebró",
+          "meta": "Jun 2023 – Jun 2024 · Llinars del Vallès · Presencial"
+        },
+        {
+          "role": "Auxiliar Informático — Prácticas",
+          "org": "ICÓNICO",
+          "meta": "Ene 2023 – Jun 2023 · Cardedeu · Presencial"
+        }
+      ],
+      "education": [
+        {
+          "role": "Ingeniería Informática — Grado",
+          "org": "Universitat de Girona",
+          "meta": "Sep 2025 – Actualidad"
+        },
+        {
+          "role": "Desarrollo de aplicaciones multiplataforma (DAM) — CFGS",
+          "org": "Escola Ginebró",
+          "meta": "Sep 2023 – Jun 2025 · Nota final 9.12"
+        }
+      ],
+      "volunteering": {
+        "role": "Voluntario",
+        "org": "Asperpol",
+        "meta": "Mar 2021 – May 2023",
+        "desc": "ASPERPOL es una ONG centrada en el desarrollo. Colaboré como voluntario preparando donaciones de material para sus proyectos de desarrollo internacional en Gambia."
+      },
+      "skills": [
+        { "k": "LENGUAJES",  "v": "PHP · TypeScript · HTML · CSS · JavaScript · C++ · SQL · JSON" },
+        { "k": "FRAMEWORKS", "v": "React · Laravel · Node.js · Tailwind CSS" },
+        { "k": "HERRAMIENTAS","v": "Git · Figma · Postman" },
+        { "k": "SOFT SKILLS","v": "Aprendizaje autónomo · Pensamiento lógico · Trabajo en equipo · Comunicación · Gestión del tiempo · Atención al detalle · Curiosidad técnica" }
+      ],
+      "languages": [
+        { "k": "Catalán",   "v": "Nativo" },
+        { "k": "Castellano","v": "Nativo" },
+        { "k": "Inglés",    "v": "Conversacional" }
+      ]
+    },
+    "EN": {
+      "title": "CURRICULUM VITAE",
+      "sub": "履歴書 // OPERATOR FILE",
+      "name": "SERGI GIRIBET",
+      "tagline": "BORN TO USE. MADE TO CREATE.",
+      "location": "Girona, ES",
+      "phone": "+34 636 634 388",
+      "email": "sergi@giribet.cat",
+      "file": "sergi-giribet-cv-en",
+      "ui": {
+        "download": "DOWNLOAD PDF",
+        "close": "CLOSE",
+        "secProfile": "PROFILE",
+        "secExp": "EXPERIENCE",
+        "secEdu": "EDUCATION",
+        "secVol": "VOLUNTEERING",
+        "secSkills": "SKILLS",
+        "secLang": "LANGUAGES"
+      },
+      "profile": "Hi! I'm a multiplatform developer passionate about code. I work with technologies like React, Laravel, Node.js and other modern tools. I like to understand how things work and why they're built the way they are — sometimes out of curiosity, sometimes out of necessity. When I'm not coding I'm probably gaming or listening to music while brainstorming my next project. I'm currently looking for opportunities to grow as a professional and contribute to ambitious, talented teams with good vibes.",
+      "experience": [
+        {
+          "role": "Web Developer — Internship",
+          "org": "CROMLEC",
+          "meta": "Jun 2024 – Jul 2024 · Llinars del Vallès · Hybrid"
+        },
+        {
+          "role": "IT Assistant — Part-time",
+          "org": "Escola Ginebró",
+          "meta": "Jun 2023 – Jun 2024 · Llinars del Vallès · On-site"
+        },
+        {
+          "role": "IT Assistant — Internship",
+          "org": "ICÓNICO",
+          "meta": "Jan 2023 – Jun 2023 · Cardedeu · On-site"
+        }
+      ],
+      "education": [
+        {
+          "role": "Computer Engineering — Degree",
+          "org": "Universitat de Girona",
+          "meta": "Sep 2025 – Present"
+        },
+        {
+          "role": "Multiplatform App Development (DAM) — CFGS",
+          "org": "Escola Ginebró",
+          "meta": "Sep 2023 – Jun 2025 · Final grade 9.12"
+        }
+      ],
+      "volunteering": {
+        "role": "Volunteer",
+        "org": "Asperpol",
+        "meta": "Mar 2021 – May 2023",
+        "desc": "ASPERPOL is a development-focused NGO. I collaborated as a volunteer preparing material donations for their international development projects in The Gambia."
+      },
+      "skills": [
+        { "k": "LANGUAGES",  "v": "PHP · TypeScript · HTML · CSS · JavaScript · C++ · SQL · JSON" },
+        { "k": "FRAMEWORKS", "v": "React · Laravel · Node.js · Tailwind CSS" },
+        { "k": "TOOLS",      "v": "Git · Figma · Postman" },
+        { "k": "SOFT SKILLS","v": "Autonomous learning · Logical thinking · Teamwork · Communication · Time management · Attention to detail · Technical curiosity" }
+      ],
+      "languages": [
+        { "k": "Catalan",  "v": "Native" },
+        { "k": "Spanish",  "v": "Native" },
+        { "k": "English",  "v": "Conversational" }
+      ]
+    }
+  }
+}

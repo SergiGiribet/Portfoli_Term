@@ -29,3 +29,18 @@ export async function upsertProject(
     return { ok: false, error: String(e) };
   }
 }
+
+export async function deleteProject(id: string): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    return { ok: false, error: "Supabase not configured" };
+  }
+  try {
+    const supabase = await createClient();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase.from("projects") as any).delete().eq("id", id);
+    if (error) return { ok: false, error: error.message };
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: String(e) };
+  }
+}

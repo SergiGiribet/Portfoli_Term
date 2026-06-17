@@ -55,7 +55,11 @@ export async function POST(req: NextRequest) {
   });
 
   if (error || !data.session) {
-    return NextResponse.json({ error: "access denied" }, { status: 401 });
+    console.error("[auth] signInWithPassword failed:", error?.message, error?.status);
+    return NextResponse.json(
+      { error: error?.message ?? "no session returned" },
+      { status: 401 }
+    );
   }
 
   return res;

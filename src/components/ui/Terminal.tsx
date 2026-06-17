@@ -130,7 +130,10 @@ export default function Terminal() {
         try {
           const r = await fetch("/api/auth", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: arg }) });
           if (r.ok) { setAdmin(true); setHistory((h) => [...h, { text: "ACCESS GRANTED // ADMIN MODE", color: AC }]); }
-          else        { setHistory((h) => [...h, { text: "access denied", color: PINK }]); }
+          else {
+            const body = await r.json().catch(() => ({})) as { error?: string };
+            setHistory((h) => [...h, { text: `access denied: ${body.error ?? r.status}`, color: PINK }]);
+          }
         } catch { setHistory((h) => [...h, { text: "auth service unavailable", color: PINK }]); }
         scrollBottom();
         return;

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const mono  = "'JetBrains Mono',monospace";
 const sans  = "'Chakra Petch',sans-serif";
@@ -19,6 +19,12 @@ const NAV = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router   = useRouter();
+
+  const handleLogout = async () => {
+    await fetch("/api/auth", { method: "DELETE" });
+    router.push("/");
+  };
 
   return (
     <aside style={{ width: 222, flexShrink: 0, borderRight: "1px solid #1c1e1c", background: "#0c0d0c", display: "flex", flexDirection: "column", minHeight: "100vh", position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
@@ -45,10 +51,17 @@ export default function Sidebar() {
       {/* user chip */}
       <div style={{ padding: "14px 16px", borderTop: "1px solid #1c1e1c", display: "flex", alignItems: "center", gap: 11 }}>
         <div style={{ width: 32, height: 32, flexShrink: 0, border: "1px solid #2a2c2a", background: "#111210", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: black, fontSize: 13, color: "var(--ac,#c7f536)" }}>S</div>
-        <div style={{ minWidth: 0 }}>
+        <div style={{ minWidth: 0, flex: 1 }}>
           <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 12, color: "#e8e9e4", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>Sergi Giribet</div>
           <div style={{ fontFamily: mono, fontSize: 8, letterSpacing: "0.16em", color: "#7e8178" }}>OPERATOR // ADMIN</div>
         </div>
+        <button
+          onClick={handleLogout}
+          title="Log out"
+          style={{ background: "none", border: "1px solid #2a2c2a", color: "#5a5d57", fontFamily: mono, fontSize: 9, letterSpacing: "0.1em", padding: "5px 7px", cursor: "pointer", flexShrink: 0, transition: "all .15s" }}
+          onMouseEnter={e => { e.currentTarget.style.color = "var(--pink,#ff2d8e)"; e.currentTarget.style.borderColor = "var(--pink,#ff2d8e)"; }}
+          onMouseLeave={e => { e.currentTarget.style.color = "#5a5d57"; e.currentTarget.style.borderColor = "#2a2c2a"; }}
+        >⏻</button>
       </div>
     </aside>
   );

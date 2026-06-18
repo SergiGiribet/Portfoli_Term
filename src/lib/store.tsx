@@ -39,12 +39,12 @@ const ACCENT_MAP: Record<Accent, string> = {
   Violet: "#9d8dff",
 };
 
-function readStorage<T>(key: string, allowed: T[], fallback: T): T {
+function readStorageOptional<T>(key: string, allowed: T[]): T | null {
   try {
     const v = localStorage.getItem(key) as T;
-    return allowed.includes(v) ? v : fallback;
+    return allowed.includes(v) ? v : null;
   } catch {
-    return fallback;
+    return null;
   }
 }
 
@@ -60,15 +60,29 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setLangState(readStorage<Lang>("gq_lang", ["CAT", "ES", "EN"], "EN"));
-    setAccentState(
-      readStorage<Accent>("gq_accent", ["Lime", "Pink", "Violet"], "Lime")
-    );
-    // Restore admin session if a valid Supabase cookie exists
+    const storedLang   = readStorageOptional<Lang>("gq_lang",   ["CAT", "ES", "EN"]);
+    const storedAccent = readStorageOptional<Accent>("gq_accent", ["Lime", "Pink", "Violet"]);
+
+    // Load Supabase settings as defaults (localStorage overrides them)
+    fetch("/api/settings")
+      .then(r => r.json())
+      .then((d: { default_lang?: string; accent?: string } | null) => {
+        const dbLang   = (["CAT","ES","EN"] as string[]).includes(d?.default_lang ?? "") ? d!.default_lang as Lang : "EN";
+        const dbAccent = (["Lime","Pink","Violet"] as string[]).includes(d?.accent ?? "") ? d!.accent as Accent : "Lime";
+        setLangState(storedLang   ?? dbLang);
+        setAccentState(storedAccent ?? dbAccent);
+      })
+      .catch(() => {
+        setLangState(storedLang   ?? "EN");
+        setAccentState(storedAccent ?? "Lime");
+      });
+
+    // Restore admin session
     fetch("/api/auth")
       .then((r) => r.json())
       .then((d) => { if (d.authenticated) setAdmin(true); })
       .catch(() => {});
+
     setMounted(true);
   }, []);
 

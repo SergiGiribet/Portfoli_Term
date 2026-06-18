@@ -1,15 +1,30 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
-import { getContact } from "@/lib/content";
-import { content } from "@/lib/content";
+import { getContact, content } from "@/lib/content";
+
+type ChannelDisplay = { label: string; val: string; href: string };
 
 export default function Contact() {
   const t = useTranslations();
   const { lang, setCvOpen } = useStore();
   const contactLine = getContact(lang);
-  const { channels, identity } = content;
+  const { identity } = content;
+
+  const [channels, setChannels] = useState<ChannelDisplay[]>(content.channels);
+
+  useEffect(() => {
+    fetch("/api/channels")
+      .then(r => r.json())
+      .then((data: { label: string; value: string; href: string }[] | null) => {
+        if (data && data.length > 0) {
+          setChannels(data.map(c => ({ label: c.label, val: c.value, href: c.href })));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section id="contact" style={{ position: "relative", maxWidth: 1280, margin: "0 auto", padding: "90px 28px 60px", scrollMarginTop: 60 }}>

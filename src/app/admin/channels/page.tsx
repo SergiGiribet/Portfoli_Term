@@ -27,12 +27,7 @@ export default function ChannelsPage() {
   const [msg, setMsg]           = useState("");
   const dragIdx = useRef<number | null>(null);
 
-  useEffect(() => {
-    fetch("/api/admin/channels")
-      .then(r => r.json())
-      .then((data: ChannelRow[]) => setChannels(data.map(c => ({ id: c.id, label: c.label, value: c.value, href: c.href, live: c.live, sort_order: c.sort_order }))))
-      .catch(() => {});
-  }, []);
+  useEffect(() => { load(); }, []);
 
   const set = (i: number, k: keyof ChannelDraft, v: unknown) =>
     setChannels(cs => cs.map((c,j) => j===i ? { ...c, [k]: v } : c));
@@ -50,13 +45,22 @@ export default function ChannelsPage() {
   };
   const onDrop = () => { dragIdx.current = null; };
 
+  const load = () =>
+    fetch("/api/admin/channels")
+      .then(r => r.json())
+      .then((data: ChannelRow[]) => setChannels(data.map(c => ({ id: c.id, label: c.label, value: c.value, href: c.href, live: c.live, sort_order: c.sort_order }))))
+      .catch(() => {});
+
   const handleSave = async () => {
     setSaving(true); setMsg("");
     const payload = channels.map((c, i) => ({ ...c, sort_order: i + 1 }));
     const res = await saveChannels(payload);
     setSaving(false);
     setMsg(res.ok ? "Guardat ✓" : res.error ?? "Error");
-    if (res.ok) setTimeout(() => setMsg(""), 2000);
+    if (res.ok) {
+      setTimeout(() => setMsg(""), 2000);
+      load(); // refresh to get new UUIDs for freshly inserted channels
+    }
   };
 
   const col = "30px 0.7fr 1fr 1.5fr 60px 30px";

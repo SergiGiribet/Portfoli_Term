@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "GIRQUELL CMS" };
 
-const ADMIN_EMAIL = "sergi@giribet.cat";
+import { ADMIN_EMAIL } from "@/lib/constants";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) redirect("/");

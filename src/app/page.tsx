@@ -2,6 +2,7 @@ import { StoreProvider } from "@/lib/store";
 import IntlProvider from "@/components/ui/IntlProvider";
 import DotCanvas from "@/components/ui/DotCanvas";
 import HudCursor from "@/components/ui/HudCursor";
+import ScanlinesOverlay from "@/components/ui/ScanlinesOverlay";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import BootScreen from "@/components/ui/BootScreen";
 import Nav from "@/components/sections/Nav";
@@ -31,7 +32,7 @@ export default function Home() {
         >
           {/* global bg fx */}
           <DotCanvas />
-          <div style={{ position: "fixed", inset: 0, zIndex: 9998, pointerEvents: "none", background: "repeating-linear-gradient(0deg, rgba(255,255,255,0.022) 0 1px, transparent 1px 3px)", animation: "gq-scan 8s linear infinite", mixBlendMode: "overlay" }} />
+          <ScanlinesOverlay />
           <div style={{ position: "fixed", inset: 0, zIndex: 9997, pointerEvents: "none", background: "radial-gradient(130% 100% at 50% 0%, transparent 62%, rgba(0,0,0,0.42) 100%)" }} />
 
           <ScrollProgress />

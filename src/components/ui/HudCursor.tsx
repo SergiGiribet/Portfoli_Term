@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useStore } from "@/lib/store";
 
 export default function HudCursor() {
+  const { siteSettings } = useStore();
   const ringRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!siteSettings.hud_cursor) return;
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
     const st = document.createElement("style");
@@ -58,7 +61,7 @@ export default function HudCursor() {
       window.removeEventListener("mousemove", onMove);
       st.remove();
     };
-  }, []);
+  }, [siteSettings.hud_cursor]);
 
   return (
     <>

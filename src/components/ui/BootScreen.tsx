@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useStore } from "@/lib/store";
 
 const BOOT_LINES = [
   "INIT GIRQUELL.SYS",
@@ -11,6 +12,7 @@ const BOOT_LINES = [
 ];
 
 export default function BootScreen() {
+  const { siteSettings } = useStore();
   const overlayRef = useRef<HTMLDivElement>(null);
   const logRef     = useRef<HTMLDivElement>(null);
   const barRef     = useRef<HTMLDivElement>(null);
@@ -20,6 +22,8 @@ export default function BootScreen() {
   useEffect(() => {
     const overlay = overlayRef.current;
     if (!overlay) return;
+
+    if (!siteSettings.boot_sequence) { overlay.style.display = "none"; return; }
 
     let booted = false;
     try { booted = sessionStorage.getItem("gq_booted") === "1"; } catch {}
@@ -66,7 +70,7 @@ export default function BootScreen() {
     }, 190);
 
     return () => { clearInterval(lineIv); clearInterval(barIv); };
-  }, []);
+  }, [siteSettings.boot_sequence]);
 
   return (
     <div

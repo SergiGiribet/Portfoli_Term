@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import type { Database } from "@/lib/supabase/types";
 
-const ADMIN_EMAIL = "sergi@giribet.cat";
+import { ADMIN_EMAIL } from "@/lib/constants";
 
 function makeSupabase(req: NextRequest, res: NextResponse) {
   return createServerClient<Database>(

@@ -11,7 +11,7 @@ type StackRow = { label: string; items: string };
 
 export default function Profile() {
   const t = useTranslations();
-  const { lang } = useStore();
+  const { lang, siteSettings } = useStore();
   const [profileData, setProfileData] = useState<ProfileRow | null>(null);
 
   useEffect(() => {
@@ -66,8 +66,8 @@ export default function Profile() {
           <p style={{ margin: "0 0 20px", fontFamily: "'Chakra Petch',sans-serif", fontWeight: 400, fontSize: "clamp(16px,1.9vw,22px)", lineHeight: 1.6, color: "#d6d8d1" }}>{bio.p1}</p>
           <p style={{ margin: 0, fontFamily: "'Chakra Petch',sans-serif", fontWeight: 400, fontSize: "clamp(15px,1.6vw,18px)", lineHeight: 1.65, color: "#9a9d96" }}>{bio.p2}</p>
           <div style={{ marginTop: 28, display: "flex", gap: 18, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: "#7e8178" }}>
-            <span>EST. 2023</span><span>·</span><span>CATALONIA</span><span>·</span>
-            <span style={{ color: "var(--ac,#c7f536)" }}>ACTIVE BUILD</span>
+            <span>EST. {siteSettings.year}</span><span>·</span><span>CATALONIA</span><span>·</span>
+            <span style={{ color: "var(--ac,#c7f536)" }}>{siteSettings.status_text}</span>
           </div>
         </div>
 

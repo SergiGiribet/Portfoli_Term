@@ -17,6 +17,7 @@ interface SiteSettings {
   sub_name: string; coords: string; year: string;
   contact_cat: string; contact_es: string; contact_en: string;
   status_text: string;
+  scanlines: boolean; boot_sequence: boolean; hud_cursor: boolean;
 }
 
 interface SelectedProject {
@@ -63,6 +64,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   contact_es: "¿Tienes una idea, un proyecto o ganas de construir? Hablemos.",
   contact_en: "Got an idea, a project or the itch to build? Let's talk.",
   status_text: "EN PAUSA",
+  scanlines: true, boot_sequence: true, hud_cursor: false,
 };
 
 function readStorageOptional<T>(key: string, allowed: T[]): T | null {
@@ -104,10 +106,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
             sub_name:     d.sub_name     ?? s.sub_name,
             coords:       d.coords       ?? s.coords,
             year:         d.year         ?? s.year,
-            contact_cat:  d.contact_cat  ?? s.contact_cat,
-            contact_es:   d.contact_es   ?? s.contact_es,
-            contact_en:   d.contact_en   ?? s.contact_en,
-            status_text:  d.status_text  ?? s.status_text,
+            contact_cat:   d.contact_cat   ?? s.contact_cat,
+            contact_es:    d.contact_es    ?? s.contact_es,
+            contact_en:    d.contact_en    ?? s.contact_en,
+            status_text:   d.status_text   ?? s.status_text,
+            scanlines:     d.scanlines     ?? s.scanlines,
+            boot_sequence: d.boot_sequence ?? s.boot_sequence,
+            hud_cursor:    d.hud_cursor    ?? s.hud_cursor,
           }));
         }
       })

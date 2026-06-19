@@ -79,9 +79,9 @@ export interface Database {
       };
 
       messages: {
-        Row:    { id: string; name: string; email: string; subject: string; body: string; read: boolean; archived: boolean; created_at: string; };
-        Insert: { id?: string; name: string; email: string; subject?: string; body: string; read?: boolean; archived?: boolean; created_at?: string; };
-        Update: { id?: string; name?: string; email?: string; subject?: string; body?: string; read?: boolean; archived?: boolean; created_at?: string; };
+        Row:    { id: string; name: string; email: string; subject: string; body: string; read: boolean; archived: boolean; created_at: string; reply: string | null; replied_at: string | null; };
+        Insert: { id?: string; name: string; email: string; subject?: string; body: string; read?: boolean; archived?: boolean; created_at?: string; reply?: string | null; replied_at?: string | null; };
+        Update: { id?: string; name?: string; email?: string; subject?: string; body?: string; read?: boolean; archived?: boolean; created_at?: string; reply?: string | null; replied_at?: string | null; };
       };
 
       profile: {
@@ -97,9 +97,9 @@ export interface Database {
       };
 
       settings: {
-        Row:    { id: number; display_name: string; slogan: string; accent: string; default_lang: string; scanlines: boolean; boot_sequence: boolean; hud_cursor: boolean; updated_at: string; };
-        Insert: { id?: number; display_name?: string; slogan?: string; accent?: string; default_lang?: string; scanlines?: boolean; boot_sequence?: boolean; hud_cursor?: boolean; updated_at?: string; };
-        Update: { id?: number; display_name?: string; slogan?: string; accent?: string; default_lang?: string; scanlines?: boolean; boot_sequence?: boolean; hud_cursor?: boolean; updated_at?: string; };
+        Row:    { id: number; display_name: string; slogan: string; accent: string; default_lang: string; scanlines: boolean; boot_sequence: boolean; hud_cursor: boolean; updated_at: string; sub_name: string; coords: string; year: string; contact_cat: string; contact_es: string; contact_en: string; };
+        Insert: { id?: number; display_name?: string; slogan?: string; accent?: string; default_lang?: string; scanlines?: boolean; boot_sequence?: boolean; hud_cursor?: boolean; updated_at?: string; sub_name?: string; coords?: string; year?: string; contact_cat?: string; contact_es?: string; contact_en?: string; };
+        Update: { id?: number; display_name?: string; slogan?: string; accent?: string; default_lang?: string; scanlines?: boolean; boot_sequence?: boolean; hud_cursor?: boolean; updated_at?: string; sub_name?: string; coords?: string; year?: string; contact_cat?: string; contact_es?: string; contact_en?: string; };
       };
     };
     Views:     Record<string, never>;

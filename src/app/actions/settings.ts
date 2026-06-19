@@ -10,6 +10,12 @@ interface SettingsData {
   scanlines:     boolean;
   boot_sequence: boolean;
   hud_cursor:    boolean;
+  sub_name:      string;
+  coords:        string;
+  year:          string;
+  contact_cat:   string;
+  contact_es:    string;
+  contact_en:    string;
 }
 
 export async function saveSettings(data: SettingsData): Promise<{ ok: boolean; error?: string }> {

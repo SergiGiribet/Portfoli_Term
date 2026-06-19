@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
-import { getContact, content } from "@/lib/content";
+import { content } from "@/lib/content";
 
 const mono = "'JetBrains Mono',monospace";
 const sans = "'Chakra Petch',sans-serif";
@@ -25,8 +25,7 @@ type SendStatus = "idle" | "sending" | "sent" | "error";
 export default function Contact() {
   const t = useTranslations();
   const { lang, setCvOpen, siteSettings } = useStore();
-  const contactLine = getContact(lang);
-  const { identity } = content;
+  const contactLine = lang === "CAT" ? siteSettings.contact_cat : lang === "ES" ? siteSettings.contact_es : siteSettings.contact_en;
 
   const [channels, setChannels] = useState<ChannelDisplay[]>(content.channels);
   const [form, setForm] = useState<FormState>({ name: "", email: "", subject: "", body: "" });
@@ -159,9 +158,9 @@ export default function Contact() {
       <div style={{ position: "relative", borderTop: "1px solid #1c1e1c", paddingTop: 30 }}>
         <div style={{ fontFamily: "'Archivo Black',sans-serif", fontSize: "clamp(56px,16vw,230px)", lineHeight: 0.8, letterSpacing: "-0.03em", color: "#121312", userSelect: "none" }}>DUCKHATS</div>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginTop: 24, fontFamily: mono, fontSize: 10, letterSpacing: "0.18em", color: "#7e8178", textTransform: "uppercase" }}>
-          <span>© {identity.year} SERGI GIRIBET // GIRQUELL</span>
+          <span>© {siteSettings.year} {siteSettings.display_name}</span>
           <span style={{ color: "var(--ac,#c7f536)" }}>{siteSettings.slogan}</span>
-          <span>EOF // {identity.coords}</span>
+          <span>EOF // {siteSettings.coords}</span>
         </div>
       </div>
 

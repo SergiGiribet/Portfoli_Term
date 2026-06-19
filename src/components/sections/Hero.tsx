@@ -8,7 +8,7 @@ import { content } from "@/lib/content";
 
 export default function Hero() {
   const t = useTranslations();
-  const { lang } = useStore();
+  const { lang, siteSettings } = useStore();
   const bio = getBio(lang);
   const { identity } = content;
 
@@ -76,7 +76,7 @@ export default function Hero() {
             </div>
 
             <h1 className="animate-gq-glitch" style={{ margin: 0, fontFamily: "'Archivo Black',sans-serif", fontSize: "clamp(58px,11vw,168px)", lineHeight: 0.82, letterSpacing: "-0.03em", color: "#edeee8", cursor: "default" }}>
-              {identity.displayName}
+              {siteSettings.display_name}
             </h1>
 
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 14 }}>
@@ -86,7 +86,7 @@ export default function Hero() {
             </div>
 
             <p style={{ margin: "26px 0 0", fontFamily: "'JetBrains Mono',monospace", fontSize: "clamp(13px,1.5vw,17px)", letterSpacing: "0.12em", color: "#8a8d86" }}>
-              「 {identity.slogan} 」
+              「 {siteSettings.slogan} 」
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 30 }}>

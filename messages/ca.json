@@ -31,6 +31,16 @@
     "welcome": "GIRQUELL.SYS terminal — v2",
     "hint2":   "escriu 'help' per veure comandos · ESC per tancar"
   },
+  "form": {
+    "name":     "NOM",
+    "email":    "CORREU",
+    "subject":  "ASSUMPTE (opcional)",
+    "message":  "MISSATGE",
+    "send":     "ENVIAR MISSATGE",
+    "sending":  "ENVIANT...",
+    "sent":     "Missatge enviat ✓",
+    "error":    "Error — torna-ho a intentar"
+  },
   "cv": {
     "download": "DESCARREGAR PDF",
     "close":    "TANCAR",

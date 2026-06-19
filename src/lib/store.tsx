@@ -12,6 +12,12 @@ import type { Lang } from "@/types/content";
 type Accent = "Lime" | "Pink" | "Violet";
 type Section = "top" | "profile" | "work" | "contact";
 
+interface SelectedProject {
+  id: string; no: string; org: string; cjk: string; kind: string;
+  img: string; href: string; tags: string[]; role: string; year: string;
+  name: string; long_cat: string; long_es: string; long_en: string;
+}
+
 interface Store {
   lang: Lang;
   setLang: (l: Lang) => void;
@@ -21,8 +27,8 @@ interface Store {
   setActiveSection: (s: Section) => void;
   termOpen: boolean;
   setTermOpen: (v: boolean) => void;
-  detailIdx: number | null;
-  openDetail: (i: number) => void;
+  detailProject: SelectedProject | null;
+  openDetail: (p: SelectedProject) => void;
   closeDetail: () => void;
   cvOpen: boolean;
   setCvOpen: (v: boolean) => void;
@@ -53,7 +59,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [accent, setAccentState] = useState<Accent>("Lime");
   const [activeSection, setActiveSection] = useState<Section>("top");
   const [termOpen, setTermOpen] = useState(false);
-  const [detailIdx, setDetailIdx] = useState<number | null>(null);
+  const [detailProject, setDetailProject] = useState<SelectedProject | null>(null);
   const [cvOpen, setCvOpen] = useState(false);
   const [langFxKey, setLangFxKey] = useState(0);
   const [isAdmin, setAdmin] = useState(false);
@@ -105,8 +111,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setAccentState(a);
   }, []);
 
-  const openDetail = useCallback((i: number) => setDetailIdx(i), []);
-  const closeDetail = useCallback(() => setDetailIdx(null), []);
+  const openDetail  = useCallback((p: SelectedProject) => setDetailProject(p), []);
+  const closeDetail = useCallback(() => setDetailProject(null), []);
 
   return (
     <Ctx.Provider
@@ -119,7 +125,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setActiveSection,
         termOpen,
         setTermOpen,
-        detailIdx,
+        detailProject,
         openDetail,
         closeDetail,
         cvOpen,

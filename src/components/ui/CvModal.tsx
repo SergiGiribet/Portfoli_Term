@@ -1,14 +1,48 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
 import { getCv } from "@/lib/content";
+import type { CvData } from "@/types/content";
+
+interface SupabaseCv {
+  identity:    { name: string; tagline: string; location: string; phone: string; email: string };
+  experience:  { role: string; org: string; meta: string }[];
+  education:   { role: string; org: string; meta: string }[];
+  skills:      { k: string; v: string }[];
+  languages:   { lang: string; level: string }[];
+  volunteering:{ role: string; org: string; meta: string; desc: string };
+  bio1_en: string; bio1_es: string; bio1_cat: string;
+}
 
 export default function CvModal() {
   const t = useTranslations("cv");
   const { lang, cvOpen, setCvOpen, accent } = useStore();
-  const cv = getCv(lang);
+  const [supabaseCv, setSupabaseCv] = useState<SupabaseCv | null>(null);
+  const staticCv = getCv(lang);
+
+  useEffect(() => {
+    fetch("/api/cv")
+      .then(r => r.json())
+      .then((d: SupabaseCv | null) => { if (d?.identity) setSupabaseCv(d); })
+      .catch(() => {});
+  }, []);
+
+  const cv: CvData = supabaseCv ? {
+    ...staticCv,
+    name:     supabaseCv.identity.name,
+    tagline:  supabaseCv.identity.tagline,
+    location: supabaseCv.identity.location,
+    phone:    supabaseCv.identity.phone,
+    email:    supabaseCv.identity.email,
+    profile:  lang === "CAT" ? supabaseCv.bio1_cat : lang === "ES" ? supabaseCv.bio1_es : supabaseCv.bio1_en,
+    experience:   supabaseCv.experience,
+    education:    supabaseCv.education,
+    skills:       supabaseCv.skills,
+    languages:    supabaseCv.languages.map(l => ({ k: l.lang, v: l.level })),
+    volunteering: supabaseCv.volunteering,
+  } : staticCv;
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

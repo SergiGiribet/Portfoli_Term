@@ -31,6 +31,16 @@
     "welcome": "GIRQUELL.SYS terminal — v2",
     "hint2":   "type 'help' to list commands · ESC to close"
   },
+  "form": {
+    "name":     "NAME",
+    "email":    "EMAIL",
+    "subject":  "SUBJECT (optional)",
+    "message":  "MESSAGE",
+    "send":     "SEND MESSAGE",
+    "sending":  "SENDING...",
+    "sent":     "Message sent ✓",
+    "error":    "Error — try again"
+  },
   "cv": {
     "download": "DOWNLOAD PDF",
     "close":    "CLOSE",

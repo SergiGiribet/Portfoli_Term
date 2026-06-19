@@ -1,15 +1,40 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
-import { getBio } from "@/lib/content";
-import { content } from "@/lib/content";
+import { getBio, content } from "@/lib/content";
+import type { ProfileRow } from "@/lib/supabase/types";
+
+type SheetRow = { k: string; v: string };
+type StackRow = { label: string; items: string };
 
 export default function Profile() {
   const t = useTranslations();
   const { lang } = useStore();
-  const bio  = getBio(lang);
-  const { dataSheet, stack } = content;
+  const [profileData, setProfileData] = useState<ProfileRow | null>(null);
+
+  useEffect(() => {
+    fetch("/api/profile")
+      .then(r => r.json())
+      .then((d: ProfileRow | null) => { if (d) setProfileData(d); })
+      .catch(() => {});
+  }, []);
+
+  const bio = profileData
+    ? {
+        p1: lang === "CAT" ? profileData.bio1_cat : lang === "ES" ? profileData.bio1_es : profileData.bio1_en,
+        p2: lang === "CAT" ? profileData.bio2_cat : lang === "ES" ? profileData.bio2_es : profileData.bio2_en,
+      }
+    : getBio(lang);
+
+  const dataSheet = profileData
+    ? (profileData.sheet as unknown as SheetRow[])
+    : content.dataSheet;
+
+  const stack = profileData
+    ? (profileData.stack as unknown as StackRow[])
+    : content.stack;
 
   return (
     <section id="profile" style={{ position: "relative", maxWidth: 1280, margin: "0 auto", padding: "80px 28px", scrollMarginTop: 60 }}>

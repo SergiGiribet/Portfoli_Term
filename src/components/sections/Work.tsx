@@ -62,7 +62,7 @@ export default function Work() {
             <div key={p.id ?? p.no} style={{ position: "relative" }}>
               <a
                 href={p.href} target="_blank" rel="noopener noreferrer"
-                onClick={(e) => { if (isAdmin) return; e.preventDefault(); openDetail(i); }}
+                onClick={(e) => { if (isAdmin) return; e.preventDefault(); openDetail(p); }}
                 style={{ display: "flex", flexDirection: "column", border: "1px solid #2a2c2a", background: "#0e0f0e", textDecoration: "none", color: "inherit", cursor: "pointer", transition: "border-color 0.2s, transform 0.2s, box-shadow 0.2s", animation: "gq-rise both linear", animationTimeline: "view()", animationRange: "entry 0% cover 24%", height: "100%" }}
                 onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = "var(--ac,#c7f536)"; el.style.transform = "translateY(-4px)"; el.style.boxShadow = "0 0 0 1px var(--ac,#c7f536), 0 18px 44px -22px var(--ac,#c7f536)"; }}
                 onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = "#2a2c2a"; el.style.transform = ""; el.style.boxShadow = ""; }}

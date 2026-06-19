@@ -99,7 +99,9 @@ export default function Nav() {
         </div>
 
         {isAdmin && (
-          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.18em", color: "#0a0b0a", background: "var(--pink,#ff2d8e)", padding: "3px 7px", textTransform: "uppercase" }}>ADMIN</span>
+          <a href="/admin" style={{ textDecoration: "none" }}>
+            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.18em", color: "#0a0b0a", background: "var(--pink,#ff2d8e)", padding: "3px 7px", textTransform: "uppercase", cursor: "pointer" }}>ADMIN</span>
+          </a>
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 7, color: "#8a8d83" }}>
           <span className="animate-gq-blink" style={{ width: 7, height: 7, borderRadius: "50%", background: ac, display: "inline-block" }} />

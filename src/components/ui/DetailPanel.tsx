@@ -3,14 +3,11 @@
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
-import { getProjects } from "@/lib/content";
 import { imgSrc } from "@/lib/imgSrc";
 
 export default function DetailPanel() {
   const t = useTranslations();
-  const { lang, detailIdx, closeDetail } = useStore();
-  const projects = getProjects(lang);
-  const p = detailIdx !== null ? projects[detailIdx] : null;
+  const { lang, detailProject: p, closeDetail } = useStore();
 
   useEffect(() => {
     if (!p) return;
@@ -20,6 +17,8 @@ export default function DetailPanel() {
   }, [p, closeDetail]);
 
   if (!p) return null;
+
+  const longL = lang === "CAT" ? p.long_cat : lang === "ES" ? p.long_es : p.long_en;
 
   return (
     <div
@@ -54,7 +53,7 @@ export default function DetailPanel() {
         {/* body */}
         <div style={{ padding: "22px 22px 26px" }}>
           <h3 style={{ margin: "0 0 14px", fontFamily: "'Archivo Black',sans-serif", fontSize: "clamp(26px,4vw,40px)", lineHeight: 1, letterSpacing: "-0.01em", color: "#edeee8" }}>{p.name}</h3>
-          <p style={{ margin: "0 0 22px", fontFamily: "'Chakra Petch',sans-serif", fontSize: "clamp(15px,1.8vw,18px)", lineHeight: 1.65, color: "#cfd2ca" }}>{p.longL}</p>
+          <p style={{ margin: "0 0 22px", fontFamily: "'Chakra Petch',sans-serif", fontSize: "clamp(15px,1.8vw,18px)", lineHeight: 1.65, color: "#cfd2ca" }}>{longL}</p>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 12, marginBottom: 22 }}>
             {([["ui.role", p.role], ["ui.year", p.year]] as const).map(([key, val]) => (

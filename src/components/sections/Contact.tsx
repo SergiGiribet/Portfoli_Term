@@ -51,9 +51,9 @@ export default function Contact() {
       </div>
 
       <div className="gq-contact-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 14, marginBottom: 64 }}>
-        {channels.map((c) => (
+        {channels.map((c, i) => (
           <a
-            key={c.label} href={c.href} target="_blank" rel="noopener noreferrer"
+            key={c.href || c.label + i} href={c.href} target="_blank" rel="noopener noreferrer"
             style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 20px", border: "1px solid #2a2c2a", background: "#0e0f0e", textDecoration: "none", transition: "all 0.2s" }}
             onMouseEnter={(e) => { const a = e.currentTarget; a.style.borderColor = "var(--ac,#c7f536)"; a.style.background = "#111210"; }}
             onMouseLeave={(e) => { const a = e.currentTarget; a.style.borderColor = "#2a2c2a"; a.style.background = "#0e0f0e"; }}

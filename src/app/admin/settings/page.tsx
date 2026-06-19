@@ -34,6 +34,7 @@ type Form = {
   display_name: string; slogan: string; sub_name: string; coords: string; year: string;
   accent: string; default_lang: string; scanlines: boolean; boot_sequence: boolean; hud_cursor: boolean;
   contact_cat: string; contact_es: string; contact_en: string;
+  status_text: string;
 };
 
 const DEFAULTS: Form = {
@@ -43,6 +44,7 @@ const DEFAULTS: Form = {
   contact_cat: "Tens una idea, un projecte o ganes de construir? Parlem-ne.",
   contact_es:  "¿Tienes una idea, un proyecto o ganas de construir? Hablemos.",
   contact_en:  "Got an idea, a project or the itch to build? Let's talk.",
+  status_text: "EN PAUSA",
 };
 
 export default function SettingsPage() {
@@ -67,6 +69,7 @@ export default function SettingsPage() {
         contact_cat:   d.contact_cat   ?? DEFAULTS.contact_cat,
         contact_es:    d.contact_es    ?? DEFAULTS.contact_es,
         contact_en:    d.contact_en    ?? DEFAULTS.contact_en,
+        status_text:   d.status_text   ?? DEFAULTS.status_text,
       });
     }).catch(() => {});
   }, []);
@@ -107,6 +110,7 @@ export default function SettingsPage() {
               <div><span style={labelStyle}>COORDS</span><input style={inputStyle} value={form.coords} onChange={e => set("coords", e.target.value)} /></div>
               <div><span style={labelStyle}>YEAR</span><input style={inputStyle} value={form.year} onChange={e => set("year", e.target.value)} /></div>
             </div>
+            <div><span style={labelStyle}>STATUS (nav badge)</span><input style={{ ...inputStyle, color: "var(--ac,#c7f536)" }} value={form.status_text} onChange={e => set("status_text", e.target.value)} placeholder="EN PAUSA / OPEN TO WORK" /></div>
           </div>
         </div>
 

@@ -16,6 +16,7 @@ interface SettingsData {
   contact_cat:   string;
   contact_es:    string;
   contact_en:    string;
+  status_text:   string;
 }
 
 export async function saveSettings(data: SettingsData): Promise<{ ok: boolean; error?: string }> {

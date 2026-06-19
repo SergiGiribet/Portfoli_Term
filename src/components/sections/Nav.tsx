@@ -9,7 +9,7 @@ const SECTIONS = ["top", "profile", "work", "contact"] as const;
 
 export default function Nav() {
   const t = useTranslations();
-  const { lang, setLang, activeSection, setActiveSection, termOpen, setTermOpen, isAdmin } = useStore();
+  const { lang, setLang, activeSection, setActiveSection, termOpen, setTermOpen, isAdmin, siteSettings } = useStore();
 
   const ac  = "var(--ac,#c7f536)";
   const dim = "#9a9d96";
@@ -71,7 +71,7 @@ export default function Nav() {
       {/* logo */}
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <span style={{ width: 9, height: 18, background: ac, display: "inline-block" }} />
-        <span style={{ fontFamily: "'Archivo Black',sans-serif", fontSize: 14, letterSpacing: "0.04em" }}>GIRQUELL</span>
+        <span style={{ fontFamily: "'Archivo Black',sans-serif", fontSize: 14, letterSpacing: "0.04em" }}>{siteSettings.display_name}</span>
         <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.22em", color: "#7e8178", textTransform: "uppercase" }}>/ DEV.SYS_v2</span>
       </div>
 
@@ -105,7 +105,7 @@ export default function Nav() {
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 7, color: "#8a8d83" }}>
           <span className="animate-gq-blink" style={{ width: 7, height: 7, borderRadius: "50%", background: ac, display: "inline-block" }} />
-          <span style={{ fontSize: 9, letterSpacing: "0.2em" }}>{t("status")}</span>
+          <span style={{ fontSize: 9, letterSpacing: "0.2em" }}>{siteSettings.status_text}</span>
         </div>
       </div>
 

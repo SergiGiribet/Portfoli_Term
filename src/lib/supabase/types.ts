@@ -85,9 +85,9 @@ export interface Database {
       };
 
       profile: {
-        Row:    { id: number; sheet: Json; bio1_cat: string; bio1_es: string; bio1_en: string; bio2_cat: string; bio2_es: string; bio2_en: string; stack: Json; updated_at: string; };
-        Insert: { id?: number; sheet?: Json; bio1_cat?: string; bio1_es?: string; bio1_en?: string; bio2_cat?: string; bio2_es?: string; bio2_en?: string; stack?: Json; updated_at?: string; };
-        Update: { id?: number; sheet?: Json; bio1_cat?: string; bio1_es?: string; bio1_en?: string; bio2_cat?: string; bio2_es?: string; bio2_en?: string; stack?: Json; updated_at?: string; };
+        Row:    { id: number; sheet: Json; bio1_cat: string; bio1_es: string; bio1_en: string; bio2_cat: string; bio2_es: string; bio2_en: string; stack: Json; updated_at: string; photo: string | null; };
+        Insert: { id?: number; sheet?: Json; bio1_cat?: string; bio1_es?: string; bio1_en?: string; bio2_cat?: string; bio2_es?: string; bio2_en?: string; stack?: Json; updated_at?: string; photo?: string | null; };
+        Update: { id?: number; sheet?: Json; bio1_cat?: string; bio1_es?: string; bio1_en?: string; bio2_cat?: string; bio2_es?: string; bio2_en?: string; stack?: Json; updated_at?: string; photo?: string | null; };
       };
 
       cv_data: {

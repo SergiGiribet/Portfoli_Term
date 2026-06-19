@@ -30,13 +30,15 @@ const DEFAULT_SHEET: SheetRow[] = [{ k: "STATUS", v: "OPERATIONAL" }, { k: "BASE
 const DEFAULT_STACK: StackRow[] = [{ label: "LANGUAGES", items: "JavaScript · TypeScript · HTML/CSS" }, { label: "WEB / RUNTIME", items: "Node.js · React · REST" }, { label: "SYSTEMS", items: "Raspberry Pi · Linux · IoT" }, { label: "TOOLS", items: "Git · GitHub · Figma" }];
 
 export default function ProfilePage() {
-  const [lang, setLang]     = useState<Lang>("EN");
-  const [sheet, setSheet]   = useState<SheetRow[]>(DEFAULT_SHEET);
-  const [bio1, setBio1]     = useState({ EN: "", ES: "", CAT: "" });
-  const [bio2, setBio2]     = useState({ EN: "", ES: "", CAT: "" });
-  const [stack, setStack]   = useState<StackRow[]>(DEFAULT_STACK);
-  const [saving, setSaving] = useState(false);
-  const [msg, setMsg]       = useState("");
+  const [lang, setLang]         = useState<Lang>("EN");
+  const [sheet, setSheet]       = useState<SheetRow[]>(DEFAULT_SHEET);
+  const [bio1, setBio1]         = useState({ EN: "", ES: "", CAT: "" });
+  const [bio2, setBio2]         = useState({ EN: "", ES: "", CAT: "" });
+  const [stack, setStack]       = useState<StackRow[]>(DEFAULT_STACK);
+  const [photo, setPhoto]       = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving]     = useState(false);
+  const [msg, setMsg]           = useState("");
 
   useEffect(() => {
     fetch("/api/admin/profile").then(r => r.json()).then((d: ProfileRow | null) => {
@@ -45,8 +47,27 @@ export default function ProfilePage() {
       setBio1({ EN: d.bio1_en, ES: d.bio1_es, CAT: d.bio1_cat });
       setBio2({ EN: d.bio2_en, ES: d.bio2_es, CAT: d.bio2_cat });
       if (Array.isArray(d.stack)) setStack(d.stack as unknown as StackRow[]);
+      setPhoto(d.photo ?? null);
     }).catch(() => {});
   }, []);
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      const r = await fetch("/api/upload", { method: "POST", body: fd });
+      const data = await r.json() as { url?: string; error?: string };
+      if (data.url) setPhoto(data.url);
+      else setMsg(data.error ?? "Upload error");
+    } catch {
+      setMsg("Upload error");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSave = async () => {
     setSaving(true); setMsg("");
@@ -55,6 +76,7 @@ export default function ProfilePage() {
       bio1_en: bio1.EN, bio1_es: bio1.ES, bio1_cat: bio1.CAT,
       bio2_en: bio2.EN, bio2_es: bio2.ES, bio2_cat: bio2.CAT,
       stack: stack as unknown as Json,
+      photo,
     });
     setSaving(false);
     setMsg(res.ok ? "Guardat ✓" : res.error ?? "Error");
@@ -78,7 +100,27 @@ export default function ProfilePage() {
         }
       />
 
-      <div style={{ padding: "22px 24px", display: "grid", gridTemplateColumns: "0.95fr 1.05fr", gap: 22, alignItems: "start" }}>
+      <div style={{ padding: "22px 24px", display: "flex", flexDirection: "column", gap: 22 }}>
+
+        {/* photo upload */}
+        <div style={{ border: "1px solid #2a2c2a", background: "#0e0f0e", padding: 16, display: "flex", alignItems: "center", gap: 20 }}>
+          <div style={{ width: 72, height: 96, background: "#0a0b0a", border: "1px solid #2a2c2a", overflow: "hidden", flexShrink: 0, position: "relative" }}>
+            {photo
+              ? <img src={photo} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) contrast(1.1)", objectPosition: "50% 20%" }} />
+              : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: mono, fontSize: 9, color: "#3a3d38" }}>NO IMG</div>
+            }
+          </div>
+          <div style={{ flex: 1 }}>
+            <span style={labelStyle}>FOTO DE PERFIL (portada Hero)</span>
+            <label style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "9px 14px", border: "1px solid #2a2c2a", cursor: "pointer", fontFamily: mono, fontSize: 10, letterSpacing: "0.16em", color: uploading ? "#5a5d57" : "#cfd2ca", background: "none", transition: "all .2s" }}>
+              {uploading ? "PUJANT…" : "CANVIAR FOTO ↑"}
+              <input type="file" accept="image/*" onChange={handlePhotoUpload} disabled={uploading} style={{ display: "none" }} />
+            </label>
+            {photo && <div style={{ marginTop: 8, fontFamily: mono, fontSize: 9, letterSpacing: "0.1em", color: "#5a5d57", wordBreak: "break-all" }}>{photo}</div>}
+          </div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "0.95fr 1.05fr", gap: 22, alignItems: "start" }}>
         {/* data sheet */}
         <div style={{ border: "1px solid #2a2c2a", background: "#0e0f0e" }}>
           <div style={{ display: "flex", justifyContent: "space-between", padding: "11px 14px", borderBottom: "1px solid #1c1e1c", fontFamily: mono, fontSize: 9, letterSpacing: "0.2em", color: "#8a8d83" }}>
@@ -121,7 +163,8 @@ export default function ProfilePage() {
             ))}
           </div>
         </div>
-      </div>
+        </div>{/* end grid */}
+      </div>{/* end flex column */}
     </>
   );
 }

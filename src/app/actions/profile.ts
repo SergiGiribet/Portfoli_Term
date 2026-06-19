@@ -8,6 +8,7 @@ interface ProfileData {
   bio1_cat: string; bio1_es: string; bio1_en: string;
   bio2_cat: string; bio2_es: string; bio2_en: string;
   stack:    Json;
+  photo?:   string | null;
 }
 
 export async function saveProfile(data: ProfileData): Promise<{ ok: boolean; error?: string }> {

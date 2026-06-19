@@ -9,7 +9,15 @@ export default function Hero() {
   const { siteSettings } = useStore();
 
   const [clock, setClock] = useState("--:--:-- UTC");
+  const [photoUrl, setPhotoUrl] = useState("/images/subject.jpg");
   const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    fetch("/api/profile")
+      .then(r => r.json())
+      .then((d: { photo?: string | null } | null) => { if (d?.photo) setPhotoUrl(d.photo); })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const tick = () => {
@@ -93,7 +101,7 @@ export default function Hero() {
           <div>
             <div style={{ position: "relative", aspectRatio: "3/4", border: "1px solid #2a2c2a", overflow: "hidden", background: "#0a0b0a", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 16 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img ref={imgRef} src="/images/subject.jpg" alt="Sergi Giribet" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 28%", filter: "grayscale(1) contrast(1.12) brightness(0.92)", transform: "scale(1.08)", willChange: "transform", zIndex: 0 }} />
+              <img ref={imgRef} src={photoUrl} alt={siteSettings.sub_name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 28%", filter: "grayscale(1) contrast(1.12) brightness(0.92)", transform: "scale(1.08)", willChange: "transform", zIndex: 0 }} />
               <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "var(--ac,#c7f536)", mixBlendMode: "multiply", opacity: 0.42, pointerEvents: "none" }} />
               <div className="animate-gq-vdrift" style={{ position: "absolute", inset: 0, zIndex: 2, background: "repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0 1px, transparent 1px 3px)", pointerEvents: "none" }} />
               <div style={{ position: "absolute", inset: 0, zIndex: 2, background: "radial-gradient(120% 100% at 50% 0%, transparent 42%, rgba(0,0,0,0.6))", pointerEvents: "none" }} />

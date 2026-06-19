@@ -10,6 +10,7 @@ const sans = "'Chakra Petch',sans-serif";
 
 const inputStyle: React.CSSProperties = { width: "100%", boxSizing: "border-box", background: "#0a0b0a", border: "1px solid #2a2c2a", color: "#e8e9e4", fontFamily: sans, fontSize: 14, padding: "10px 12px", outline: "none" };
 const labelStyle: React.CSSProperties = { fontFamily: mono, fontSize: 9, letterSpacing: "0.2em", color: "#8a8d83", marginBottom: 6, display: "block" };
+const taStyle: React.CSSProperties = { ...inputStyle, resize: "vertical", minHeight: 72, lineHeight: 1.5 };
 
 function Toggle({ value, label, onChange }: { value: boolean; label: string; onChange: (v: boolean) => void }) {
   return (
@@ -29,15 +30,47 @@ const ACCENTS = [
 ];
 const LANGS = ["EN", "ES", "CAT"];
 
+type Form = {
+  display_name: string; slogan: string; sub_name: string; coords: string; year: string;
+  accent: string; default_lang: string; scanlines: boolean; boot_sequence: boolean; hud_cursor: boolean;
+  contact_cat: string; contact_es: string; contact_en: string;
+  status_text: string;
+};
+
+const DEFAULTS: Form = {
+  display_name: "GIRQUELL", slogan: "BORN TO USE. MADE TO CREATE.", sub_name: "SERGI GIRIBET",
+  coords: "41.97°N / 2.78°E", year: "2026",
+  accent: "Lime", default_lang: "EN", scanlines: true, boot_sequence: true, hud_cursor: false,
+  contact_cat: "Tens una idea, un projecte o ganes de construir? Parlem-ne.",
+  contact_es:  "¿Tienes una idea, un proyecto o ganas de construir? Hablemos.",
+  contact_en:  "Got an idea, a project or the itch to build? Let's talk.",
+  status_text: "EN PAUSA",
+};
+
 export default function SettingsPage() {
-  const [form, setForm] = useState({ display_name: "GIRQUELL", slogan: "BORN TO USE. MADE TO CREATE.", accent: "Lime", default_lang: "EN", scanlines: true, boot_sequence: true, hud_cursor: false });
+  const [form, setForm] = useState<Form>(DEFAULTS);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg]       = useState("");
 
   useEffect(() => {
     fetch("/api/admin/settings").then(r => r.json()).then((d: SettingsRow | null) => {
       if (!d) return;
-      setForm({ display_name: d.display_name, slogan: d.slogan, accent: d.accent, default_lang: d.default_lang, scanlines: d.scanlines, boot_sequence: d.boot_sequence, hud_cursor: d.hud_cursor });
+      setForm({
+        display_name:  d.display_name,
+        slogan:        d.slogan,
+        sub_name:      d.sub_name      ?? DEFAULTS.sub_name,
+        coords:        d.coords        ?? DEFAULTS.coords,
+        year:          d.year          ?? DEFAULTS.year,
+        accent:        d.accent,
+        default_lang:  d.default_lang,
+        scanlines:     d.scanlines,
+        boot_sequence: d.boot_sequence,
+        hud_cursor:    d.hud_cursor,
+        contact_cat:   d.contact_cat   ?? DEFAULTS.contact_cat,
+        contact_es:    d.contact_es    ?? DEFAULTS.contact_es,
+        contact_en:    d.contact_en    ?? DEFAULTS.contact_en,
+        status_text:   d.status_text   ?? DEFAULTS.status_text,
+      });
     }).catch(() => {});
   }, []);
 
@@ -71,7 +104,23 @@ export default function SettingsPage() {
           <div style={{ fontFamily: mono, fontSize: 9, letterSpacing: "0.2em", color: "#8a8d83", marginBottom: 14 }}>IDENTITY</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div><span style={labelStyle}>DISPLAY NAME</span><input style={inputStyle} value={form.display_name} onChange={e => set("display_name", e.target.value)} /></div>
+            <div><span style={labelStyle}>SUBTITLE / FULL NAME</span><input style={inputStyle} value={form.sub_name} onChange={e => set("sub_name", e.target.value)} /></div>
             <div><span style={labelStyle}>SLOGAN</span><input style={{ ...inputStyle, color: "var(--ac,#c7f536)" }} value={form.slogan} onChange={e => set("slogan", e.target.value)} /></div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              <div><span style={labelStyle}>COORDS</span><input style={inputStyle} value={form.coords} onChange={e => set("coords", e.target.value)} /></div>
+              <div><span style={labelStyle}>YEAR</span><input style={inputStyle} value={form.year} onChange={e => set("year", e.target.value)} /></div>
+            </div>
+            <div><span style={labelStyle}>STATUS (nav badge)</span><input style={{ ...inputStyle, color: "var(--ac,#c7f536)" }} value={form.status_text} onChange={e => set("status_text", e.target.value)} placeholder="EN PAUSA / OPEN TO WORK" /></div>
+          </div>
+        </div>
+
+        {/* contact text */}
+        <div style={{ border: "1px solid #2a2c2a", background: "#0e0f0e", padding: 16 }}>
+          <div style={{ fontFamily: mono, fontSize: 9, letterSpacing: "0.2em", color: "#8a8d83", marginBottom: 14 }}>CONTACT SECTION TEXT</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div><span style={labelStyle}>CATALÀ</span><textarea style={taStyle} value={form.contact_cat} onChange={e => set("contact_cat", e.target.value)} /></div>
+            <div><span style={labelStyle}>CASTELLÀ</span><textarea style={taStyle} value={form.contact_es} onChange={e => set("contact_es", e.target.value)} /></div>
+            <div><span style={labelStyle}>ENGLISH</span><textarea style={taStyle} value={form.contact_en} onChange={e => set("contact_en", e.target.value)} /></div>
           </div>
         </div>
 
@@ -101,14 +150,16 @@ export default function SettingsPage() {
         </div>
 
         {/* visual effects */}
-        <div style={{ border: "1px solid #2a2c2a", background: "#0e0f0e", padding: 16 }}>
+        <div style={{ border: "1px solid #2a2c2a", background: "#0e0f0e", padding: 16, gridColumn: "1 / -1" }}>
           <div style={{ fontFamily: mono, fontSize: 9, letterSpacing: "0.2em", color: "#8a8d83", marginBottom: 8 }}>VISUAL EFFECTS</div>
-          <Toggle value={form.scanlines}     label="Scanlines overlay"  onChange={v => set("scanlines", v)} />
-          <Toggle value={form.boot_sequence} label="Boot sequence"      onChange={v => set("boot_sequence", v)} />
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 12 }}>
-            <span style={{ fontFamily: sans, fontSize: 14, color: "#cfd2ca" }}>Custom HUD cursor</span>
-            <div onClick={() => set("hud_cursor", !form.hud_cursor)} style={{ width: 44, height: 24, borderRadius: 999, background: form.hud_cursor ? "var(--ac,#c7f536)" : "#1c1e1c", border: form.hud_cursor ? "none" : "1px solid #2a2c2a", position: "relative", cursor: "pointer", flexShrink: 0, transition: "background .2s" }}>
-              <div style={{ position: "absolute", top: 3, left: form.hud_cursor ? 23 : 3, width: 18, height: 18, borderRadius: "50%", background: form.hud_cursor ? "#0a0b0a" : "#5a5d57", transition: "left .2s" }} />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0 32px" }}>
+            <Toggle value={form.scanlines}     label="Scanlines overlay"  onChange={v => set("scanlines", v)} />
+            <Toggle value={form.boot_sequence} label="Boot sequence"      onChange={v => set("boot_sequence", v)} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 0", borderBottom: "1px solid #161816" }}>
+              <span style={{ fontFamily: sans, fontSize: 14, color: "#cfd2ca" }}>Custom HUD cursor</span>
+              <div onClick={() => set("hud_cursor", !form.hud_cursor)} style={{ width: 44, height: 24, borderRadius: 999, background: form.hud_cursor ? "var(--ac,#c7f536)" : "#1c1e1c", border: form.hud_cursor ? "none" : "1px solid #2a2c2a", position: "relative", cursor: "pointer", flexShrink: 0, transition: "background .2s" }}>
+                <div style={{ position: "absolute", top: 3, left: form.hud_cursor ? 23 : 3, width: 18, height: 18, borderRadius: "50%", background: form.hud_cursor ? "#0a0b0a" : "#5a5d57", transition: "left .2s" }} />
+              </div>
             </div>
           </div>
         </div>

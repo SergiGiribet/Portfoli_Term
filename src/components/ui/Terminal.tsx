@@ -3,9 +3,14 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
-import { getProjects, getBio } from "@/lib/content";
-import { content } from "@/lib/content";
+import { getProjects, getBio, content } from "@/lib/content";
 import type { Lang } from "@/types/content";
+
+type TermProject  = { no: string; name: string; kind: string; href: string };
+type TermChannel  = { label: string; val: string; href: string };
+type TermStack    = { label: string; items: string };
+type TermBio      = { p1: string; p2: string };
+type TermData     = { projects: TermProject[]; bio: TermBio; stack: TermStack[]; channels: TermChannel[] };
 
 interface Line { text: string; color?: string }
 
@@ -24,9 +29,42 @@ export default function Terminal() {
   const t = useTranslations("terminal");
   const { lang, setLang, termOpen, setTermOpen, setCvOpen, setAccent, isAdmin, setAdmin } = useStore();
   const [history, setHistory] = useState<Line[]>([]);
-  const bodyRef  = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const bodyRef   = useRef<HTMLDivElement>(null);
+  const inputRef  = useRef<HTMLInputElement>(null);
   const [awaitingPassword, setAwaitingPassword] = useState(false);
+
+  const termDataRef = useRef<TermData>({
+    projects: getProjects("EN").map(p => ({ no: p.no, name: p.name, kind: p.kind, href: p.href })),
+    bio: getBio("EN"),
+    stack: content.stack as TermStack[],
+    channels: content.channels as TermChannel[],
+  });
+
+  useEffect(() => {
+    if (!termOpen) return;
+    const l = lang;
+    fetch(`/api/projects?lang=${l}`)
+      .then(r => r.json())
+      .then((d: TermProject[]) => { if (d?.length) termDataRef.current.projects = d.map(p => ({ no: p.no, name: p.name, kind: p.kind, href: p.href })); })
+      .catch(() => {});
+    fetch("/api/profile")
+      .then(r => r.json())
+      .then((d: Record<string, string> | null) => {
+        if (!d) return;
+        const p1 = l === "CAT" ? d.bio1_cat : l === "ES" ? d.bio1_es : d.bio1_en;
+        const p2 = l === "CAT" ? d.bio2_cat : l === "ES" ? d.bio2_es : d.bio2_en;
+        if (p1) termDataRef.current.bio = { p1, p2: p2 ?? "" };
+        const stack = d.stack ? (JSON.parse(String(d.stack)) as TermStack[]) : null;
+        if (stack?.length) termDataRef.current.stack = stack;
+      })
+      .catch(() => {});
+    fetch("/api/channels")
+      .then(r => r.json())
+      .then((d: { label: string; value: string; href: string }[] | null) => {
+        if (d?.length) termDataRef.current.channels = d.map(c => ({ label: c.label, val: c.value, href: c.href }));
+      })
+      .catch(() => {});
+  }, [termOpen, lang]);
 
   useEffect(() => {
     if (termOpen) {
@@ -45,8 +83,7 @@ export default function Terminal() {
     const c     = (parts[0] || "").toLowerCase();
     const arg   = parts.slice(1).join(" ").trim();
 
-    const projects = getProjects(lang);
-    const bio      = getBio(lang);
+    const { projects, bio, stack: termStack, channels: termChannels } = termDataRef.current;
 
     const echoCmd = (c === "login" && arg) ? "login ••••••••" : cmd;
     const lines: Line[] = [{ text: `girquell@dev:~$ ${echoCmd}`, color: "#e8e9e4" }];
@@ -82,7 +119,7 @@ export default function Terminal() {
       setCvOpen(true); setTermOpen(false);
       return;
     } else if (c === "stack") {
-      content.stack.forEach((s) => out(`  ${s.label.padEnd(14)} ${s.items}`, "#cfd2ca"));
+      termStack.forEach((s) => out(`  ${s.label.padEnd(14)} ${s.items}`, "#cfd2ca"));
     } else if (c === "projects" || c === "ls") {
       projects.forEach((p, i) => out(`  [${i + 1}] ${p.no}  ${p.name}  — ${p.kind}`, "#cfd2ca"));
       out("type 'open <n>' to open a repo", "#8a8d83");
@@ -97,7 +134,7 @@ export default function Terminal() {
         out(`usage: open <1-${projects.length}|name>`, PINK);
       }
     } else if (c === "contact" || c === "social") {
-      content.channels.forEach((ch) => out(`  ${ch.label.padEnd(11)} ${ch.val}  → ${ch.href}`, "#cfd2ca"));
+      termChannels.forEach((ch) => out(`  ${ch.label.padEnd(11)} ${ch.val}  → ${ch.href}`, "#cfd2ca"));
     } else if (c === "lang") {
       const l = arg.toUpperCase() as Lang;
       if (["CAT", "ES", "EN"].includes(l)) { out(`language → ${l}`, AC); setLang(l); }

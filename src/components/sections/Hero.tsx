@@ -3,14 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
-import { getBio } from "@/lib/content";
-import { content } from "@/lib/content";
 
 export default function Hero() {
   const t = useTranslations();
-  const { lang, siteSettings } = useStore();
-  const bio = getBio(lang);
-  const { identity } = content;
+  const { siteSettings } = useStore();
 
   const [clock, setClock] = useState("--:--:-- UTC");
   const imgRef = useRef<HTMLImageElement>(null);
@@ -47,16 +43,13 @@ export default function Hero() {
     return () => { cancelAnimationFrame(raf); window.removeEventListener("mousemove", onMove); };
   }, []);
 
-  // suppress bio usage warning — bio is used via content.json for editorial text
-  void bio;
-
   return (
     <section id="top" style={{ position: "relative", minHeight: "100vh", boxSizing: "border-box", padding: "96px 28px 40px", display: "flex", flexDirection: "column", justifyContent: "center", scrollMarginTop: 60 }}>
       {/* top HUD strip */}
       <div style={{ position: "absolute", top: 66, left: 28, right: 28, display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.2em", color: "#7e8178", textTransform: "uppercase" }}>
         <span>PORTFOLIO_FILE // NM·00</span>
         <span className="gq-hud-mid" style={{ color: "var(--ac,#c7f536)" }}>— MULTIPLATFORM —</span>
-        <span>{identity.coords}</span>
+        <span>{siteSettings.coords}</span>
       </div>
 
       <div style={{ maxWidth: 1280, margin: "0 auto", width: "100%", position: "relative" }}>
@@ -81,7 +74,7 @@ export default function Hero() {
 
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 14 }}>
               <span style={{ width: 42, height: 6, background: "var(--ac,#c7f536)", display: "inline-block" }} />
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.3em", color: "#b8bbb2" }}>{identity.subName}</span>
+              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.3em", color: "#b8bbb2" }}>{siteSettings.sub_name}</span>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: "var(--violet,#9d8dff)" }}>夕</span>
             </div>
 

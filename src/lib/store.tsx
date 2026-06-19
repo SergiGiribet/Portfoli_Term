@@ -12,7 +12,12 @@ import type { Lang } from "@/types/content";
 type Accent = "Lime" | "Pink" | "Violet";
 type Section = "top" | "profile" | "work" | "contact";
 
-interface SiteSettings { display_name: string; slogan: string; }
+interface SiteSettings {
+  display_name: string; slogan: string;
+  sub_name: string; coords: string; year: string;
+  contact_cat: string; contact_es: string; contact_en: string;
+  status_text: string;
+}
 
 interface SelectedProject {
   id: string; no: string; org: string; cjk: string; kind: string;
@@ -48,6 +53,18 @@ const ACCENT_MAP: Record<Accent, string> = {
   Violet: "#9d8dff",
 };
 
+const DEFAULT_SETTINGS: SiteSettings = {
+  display_name: "GIRQUELL",
+  slogan: "BORN TO USE. MADE TO CREATE.",
+  sub_name: "SERGI GIRIBET",
+  coords: "41.97°N / 2.78°E",
+  year: "2026",
+  contact_cat: "Tens una idea, un projecte o ganes de construir? Parlem-ne.",
+  contact_es: "¿Tienes una idea, un proyecto o ganas de construir? Hablemos.",
+  contact_en: "Got an idea, a project or the itch to build? Let's talk.",
+  status_text: "EN PAUSA",
+};
+
 function readStorageOptional<T>(key: string, allowed: T[]): T | null {
   try {
     const v = localStorage.getItem(key) as T;
@@ -67,22 +84,31 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [langFxKey, setLangFxKey] = useState(0);
   const [isAdmin, setAdmin] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [siteSettings, setSiteSettings] = useState<SiteSettings>({ display_name: "GIRQUELL", slogan: "BORN TO USE. MADE TO CREATE." });
+  const [siteSettings, setSiteSettings] = useState<SiteSettings>(DEFAULT_SETTINGS);
 
   useEffect(() => {
     const storedLang   = readStorageOptional<Lang>("gq_lang",   ["CAT", "ES", "EN"]);
     const storedAccent = readStorageOptional<Accent>("gq_accent", ["Lime", "Pink", "Violet"]);
 
-    // Load Supabase settings: lang/accent defaults + display_name/slogan
     fetch("/api/settings")
       .then(r => r.json())
-      .then((d: { default_lang?: string; accent?: string; display_name?: string; slogan?: string } | null) => {
+      .then((d: Partial<SiteSettings> & { default_lang?: string; accent?: string } | null) => {
         const dbLang   = (["CAT","ES","EN"] as string[]).includes(d?.default_lang ?? "") ? d!.default_lang as Lang : "EN";
         const dbAccent = (["Lime","Pink","Violet"] as string[]).includes(d?.accent ?? "") ? d!.accent as Accent : "Lime";
         setLangState(storedLang   ?? dbLang);
         setAccentState(storedAccent ?? dbAccent);
-        if (d?.display_name || d?.slogan) {
-          setSiteSettings(s => ({ display_name: d.display_name ?? s.display_name, slogan: d.slogan ?? s.slogan }));
+        if (d) {
+          setSiteSettings(s => ({
+            display_name: d.display_name ?? s.display_name,
+            slogan:       d.slogan       ?? s.slogan,
+            sub_name:     d.sub_name     ?? s.sub_name,
+            coords:       d.coords       ?? s.coords,
+            year:         d.year         ?? s.year,
+            contact_cat:  d.contact_cat  ?? s.contact_cat,
+            contact_es:   d.contact_es   ?? s.contact_es,
+            contact_en:   d.contact_en   ?? s.contact_en,
+            status_text:  d.status_text  ?? s.status_text,
+          }));
         }
       })
       .catch(() => {
@@ -90,7 +116,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setAccentState(storedAccent ?? "Lime");
       });
 
-    // Restore admin session
     fetch("/api/auth")
       .then((r) => r.json())
       .then((d) => { if (d.authenticated) setAdmin(true); })
@@ -101,10 +126,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!mounted) return;
-    document.documentElement.style.setProperty(
-      "--ac",
-      ACCENT_MAP[accent]
-    );
+    document.documentElement.style.setProperty("--ac", ACCENT_MAP[accent]);
   }, [accent, mounted]);
 
   const setLang = useCallback((l: Lang) => {
@@ -124,22 +146,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   return (
     <Ctx.Provider
       value={{
-        lang,
-        setLang,
-        accent,
-        setAccent,
-        activeSection,
-        setActiveSection,
-        termOpen,
-        setTermOpen,
-        detailProject,
-        openDetail,
-        closeDetail,
-        cvOpen,
-        setCvOpen,
-        langFxKey,
-        isAdmin,
-        setAdmin,
+        lang, setLang, accent, setAccent,
+        activeSection, setActiveSection,
+        termOpen, setTermOpen,
+        detailProject, openDetail, closeDetail,
+        cvOpen, setCvOpen,
+        langFxKey, isAdmin, setAdmin,
         siteSettings,
       }}
     >

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useStore } from "@/lib/store";
-import { getContact, content } from "@/lib/content";
+import { content } from "@/lib/content";
 
 const mono = "'JetBrains Mono',monospace";
 const sans = "'Chakra Petch',sans-serif";
@@ -20,17 +20,24 @@ const labelStyle: React.CSSProperties = {
 
 type ChannelDisplay = { label: string; val: string; href: string };
 type FormState = { name: string; email: string; subject: string; body: string };
+type FormErrors = { name: boolean; email: boolean; body: boolean };
 type SendStatus = "idle" | "sending" | "sent" | "error";
 
 export default function Contact() {
   const t = useTranslations();
   const { lang, setCvOpen, siteSettings } = useStore();
-  const contactLine = getContact(lang);
-  const { identity } = content;
+  const contactLine = lang === "CAT" ? siteSettings.contact_cat : lang === "ES" ? siteSettings.contact_es : siteSettings.contact_en;
 
   const [channels, setChannels] = useState<ChannelDisplay[]>(content.channels);
   const [form, setForm] = useState<FormState>({ name: "", email: "", subject: "", body: "" });
+  const [errors, setErrors] = useState<FormErrors>({ name: false, email: false, body: false });
   const [status, setStatus] = useState<SendStatus>("idle");
+
+  const fieldStyle = (hasError: boolean): React.CSSProperties => ({
+    ...inputStyle,
+    borderColor: hasError ? "var(--pink,#ff2d8e)" : "#2a2c2a",
+    transition: "border-color .2s",
+  });
 
   useEffect(() => {
     fetch("/api/channels")
@@ -43,11 +50,16 @@ export default function Contact() {
       .catch(() => {});
   }, []);
 
-  const set = (k: keyof FormState, v: string) => setForm(f => ({ ...f, [k]: v }));
+  const set = (k: keyof FormState, v: string) => {
+    setForm(f => ({ ...f, [k]: v }));
+    if (k in errors) setErrors(e => ({ ...e, [k]: false }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.body) return;
+    const newErrors = { name: !form.name.trim(), email: !form.email.trim(), body: !form.body.trim() };
+    if (newErrors.name || newErrors.email || newErrors.body) { setErrors(newErrors); return; }
+    setErrors({ name: false, email: false, body: false });
     setStatus("sending");
     try {
       const res = await fetch("/api/admin/messages", {
@@ -120,23 +132,23 @@ export default function Contact() {
         <form onSubmit={handleSubmit} style={{ padding: 20, display: "flex", flexDirection: "column", gap: 14 }}>
           <div className="gq-form-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
             <div>
-              <span style={labelStyle}>{t("form.name")}</span>
-              <input required style={inputStyle} value={form.name} onChange={e => set("name", e.target.value)} />
+              <span style={{ ...labelStyle, color: errors.name ? "var(--pink,#ff2d8e)" : "#8a8d83" }}>{t("form.name")}{errors.name && " *"}</span>
+              <input style={fieldStyle(errors.name)} value={form.name} onChange={e => set("name", e.target.value)} />
             </div>
             <div>
-              <span style={labelStyle}>{t("form.email")}</span>
-              <input required type="email" style={inputStyle} value={form.email} onChange={e => set("email", e.target.value)} />
+              <span style={{ ...labelStyle, color: errors.email ? "var(--pink,#ff2d8e)" : "#8a8d83" }}>{t("form.email")}{errors.email && " *"}</span>
+              <input type="email" style={fieldStyle(errors.email)} value={form.email} onChange={e => set("email", e.target.value)} />
             </div>
           </div>
           <div>
             <span style={labelStyle}>{t("form.subject")}</span>
-            <input style={inputStyle} value={form.subject} onChange={e => set("subject", e.target.value)} />
+            <input style={fieldStyle(false)} value={form.subject} onChange={e => set("subject", e.target.value)} />
           </div>
           <div>
-            <span style={labelStyle}>{t("form.message")}</span>
+            <span style={{ ...labelStyle, color: errors.body ? "var(--pink,#ff2d8e)" : "#8a8d83" }}>{t("form.message")}{errors.body && " *"}</span>
             <textarea
-              required rows={5}
-              style={{ ...inputStyle, resize: "vertical", minHeight: 110, lineHeight: 1.6 }}
+              rows={5}
+              style={{ ...fieldStyle(errors.body), resize: "vertical", minHeight: 110, lineHeight: 1.6 }}
               value={form.body} onChange={e => set("body", e.target.value)}
             />
           </div>
@@ -159,9 +171,9 @@ export default function Contact() {
       <div style={{ position: "relative", borderTop: "1px solid #1c1e1c", paddingTop: 30 }}>
         <div style={{ fontFamily: "'Archivo Black',sans-serif", fontSize: "clamp(56px,16vw,230px)", lineHeight: 0.8, letterSpacing: "-0.03em", color: "#121312", userSelect: "none" }}>DUCKHATS</div>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginTop: 24, fontFamily: mono, fontSize: 10, letterSpacing: "0.18em", color: "#7e8178", textTransform: "uppercase" }}>
-          <span>© {identity.year} SERGI GIRIBET // GIRQUELL</span>
+          <span>© {siteSettings.year} {siteSettings.display_name}</span>
           <span style={{ color: "var(--ac,#c7f536)" }}>{siteSettings.slogan}</span>
-          <span>EOF // {identity.coords}</span>
+          <span>EOF // {siteSettings.coords}</span>
         </div>
       </div>
 

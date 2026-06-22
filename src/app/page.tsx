@@ -14,6 +14,7 @@ import Contact from "@/components/sections/Contact";
 import DetailPanel from "@/components/ui/DetailPanel";
 import Terminal from "@/components/ui/Terminal";
 import CvModal from "@/components/ui/CvModal";
+import FaviconSync from "@/components/ui/FaviconSync";
 
 export default function Home() {
   return (
@@ -37,6 +38,7 @@ export default function Home() {
 
           <ScrollProgress />
           <HudCursor />
+          <FaviconSync />
           <BootScreen />
 
           <Nav />

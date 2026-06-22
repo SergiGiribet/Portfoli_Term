@@ -50,7 +50,7 @@ export default function Work() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 28px" }}>
 
         {/* Section header */}
-        <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 42, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 42, flexWrap: "wrap", animation: "gq-rise both linear", animationTimeline: "view()", animationRange: "entry 0% cover 28%" }}>
           <span style={{ fontFamily: arch, fontSize: "clamp(34px,5vw,68px)", color: "#1c1e1c", lineHeight: 1 }}>*02</span>
           <div>
             <h2 style={{ margin: 0, fontFamily: sans, fontWeight: 700, fontSize: "clamp(24px,3.4vw,44px)", letterSpacing: "0.02em", color: "#edeee8" }}>{t("sections.work")}</h2>

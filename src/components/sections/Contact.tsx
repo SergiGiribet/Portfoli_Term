@@ -83,7 +83,7 @@ export default function Contact() {
 
   return (
     <section id="contact" style={{ position: "relative", maxWidth: 1280, margin: "0 auto", padding: "90px 28px 60px", scrollMarginTop: 60 }}>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 38, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 38, flexWrap: "wrap", animation: "gq-rise both linear", animationTimeline: "view()", animationRange: "entry 0% cover 24%" }}>
         <span style={{ fontFamily: "'Archivo Black',sans-serif", fontSize: "clamp(34px,5vw,68px)", color: "#1c1e1c", lineHeight: 1 }}>*03</span>
         <div>
           <h2 style={{ margin: 0, fontFamily: sans, fontWeight: 700, fontSize: "clamp(24px,3.4vw,44px)", letterSpacing: "0.02em", color: "#edeee8" }}>{t("sections.contact")}</h2>
@@ -92,7 +92,7 @@ export default function Contact() {
         <span style={{ flex: 1, height: 1, background: "#1c1e1c", transform: "translateY(-6px)", minWidth: 20 }} />
       </div>
 
-      <p style={{ margin: "0 0 36px", fontFamily: sans, fontWeight: 400, fontSize: "clamp(18px,2.4vw,30px)", lineHeight: 1.4, color: "#d6d8d1", maxWidth: 680 }}>
+      <p style={{ margin: "0 0 36px", fontFamily: sans, fontWeight: 400, fontSize: "clamp(18px,2.4vw,30px)", lineHeight: 1.4, color: "#d6d8d1", maxWidth: 680, animation: "gq-rise both linear", animationTimeline: "view()", animationRange: "entry 4% cover 30%" }}>
         {contactLine}
       </p>
 
@@ -106,7 +106,7 @@ export default function Contact() {
       </div>
 
       {/* channels grid */}
-      <div className="gq-contact-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 14, marginBottom: 64 }}>
+      <div className="gq-contact-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 14, marginBottom: 64, animation: "gq-rise both linear", animationTimeline: "view()", animationRange: "entry 8% cover 34%" }}>
         {channels.map((c, i) => (
           <a
             key={c.href || c.label + i} href={c.href} target="_blank" rel="noopener noreferrer"
@@ -124,7 +124,7 @@ export default function Contact() {
       </div>
 
       {/* contact form */}
-      <div style={{ border: "1px solid #2a2c2a", background: "#0e0f0e", marginBottom: 72 }}>
+      <div style={{ border: "1px solid #2a2c2a", background: "#0e0f0e", marginBottom: 72, animation: "gq-rise both linear", animationTimeline: "view()", animationRange: "entry 12% cover 38%" }}>
         <div style={{ padding: "11px 16px", borderBottom: "1px solid #1c1e1c", fontFamily: mono, fontSize: 9, letterSpacing: "0.2em", color: "#8a8d83", display: "flex", justifyContent: "space-between" }}>
           <span>TRANSMISSION // MSG_FORM</span>
           <span style={{ color: "var(--ac,#c7f536)" }}>●</span>

@@ -18,6 +18,8 @@ interface SiteSettings {
   contact_cat: string; contact_es: string; contact_en: string;
   status_text: string;
   scanlines: boolean; boot_sequence: boolean; hud_cursor: boolean;
+  marquee_text: string;
+  hero_roles: string;
 }
 
 interface SelectedProject {
@@ -65,6 +67,8 @@ const DEFAULT_SETTINGS: SiteSettings = {
   contact_en: "Got an idea, a project or the itch to build? Let's talk.",
   status_text: "EN PAUSA",
   scanlines: true, boot_sequence: true, hud_cursor: false,
+  marquee_text: "WEB  ◆  MOBILE  ◆  HARDWARE  ◆  開発者  ◆  BORN TO USE. MADE TO CREATE.  ◆  DUCKHATS  ◆",
+  hero_roles: "MULTIPLATFORM DEVELOPER\nCS ENGINEERING STUDENT\nFOUNDER @ DUCKHATS",
 };
 
 function readStorageOptional<T>(key: string, allowed: T[]): T | null {
@@ -113,6 +117,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
             scanlines:     d.scanlines     ?? s.scanlines,
             boot_sequence: d.boot_sequence ?? s.boot_sequence,
             hud_cursor:    d.hud_cursor    ?? s.hud_cursor,
+            marquee_text:  (d as { marquee_text?: string | null }).marquee_text ?? s.marquee_text,
+            hero_roles:    (d as { hero_roles?: string | null }).hero_roles    ?? s.hero_roles,
           }));
         }
       })

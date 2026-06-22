@@ -35,6 +35,8 @@ type Form = {
   accent: string; default_lang: string; scanlines: boolean; boot_sequence: boolean; hud_cursor: boolean;
   contact_cat: string; contact_es: string; contact_en: string;
   status_text: string;
+  marquee_text: string;
+  hero_roles: string;
 };
 
 const DEFAULTS: Form = {
@@ -45,6 +47,8 @@ const DEFAULTS: Form = {
   contact_es:  "¿Tienes una idea, un proyecto o ganas de construir? Hablemos.",
   contact_en:  "Got an idea, a project or the itch to build? Let's talk.",
   status_text: "EN PAUSA",
+  marquee_text: "WEB  ◆  MOBILE  ◆  HARDWARE  ◆  開発者  ◆  BORN TO USE. MADE TO CREATE.  ◆  DUCKHATS  ◆",
+  hero_roles:   "MULTIPLATFORM DEVELOPER\nCS ENGINEERING STUDENT\nFOUNDER @ DUCKHATS",
 };
 
 export default function SettingsPage() {
@@ -70,6 +74,8 @@ export default function SettingsPage() {
         contact_es:    d.contact_es    ?? DEFAULTS.contact_es,
         contact_en:    d.contact_en    ?? DEFAULTS.contact_en,
         status_text:   d.status_text   ?? DEFAULTS.status_text,
+        marquee_text:  d.marquee_text  ?? DEFAULTS.marquee_text,
+        hero_roles:    d.hero_roles    ?? DEFAULTS.hero_roles,
       });
     }).catch(() => {});
   }, []);
@@ -146,6 +152,21 @@ export default function SettingsPage() {
               <button key={l} onClick={() => set("default_lang", l)}
                 style={{ background: form.default_lang === l ? "var(--ac,#c7f536)" : "none", color: form.default_lang === l ? "#0a0b0a" : "#9a9d96", border: "none", fontFamily: mono, fontSize: 10, letterSpacing: "0.14em", fontWeight: form.default_lang === l ? 700 : 400, padding: "6px 14px", cursor: "pointer" }}>{l}</button>
             ))}
+          </div>
+        </div>
+
+        {/* hero & marquee */}
+        <div style={{ border: "1px solid #2a2c2a", background: "#0e0f0e", padding: 16, gridColumn: "1 / -1" }}>
+          <div style={{ fontFamily: mono, fontSize: 9, letterSpacing: "0.2em", color: "#8a8d83", marginBottom: 14 }}>HERO & MARQUEE</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+            <div>
+              <span style={labelStyle}>ROLS (un per línia — l&apos;últim rep color accent)</span>
+              <textarea style={{ ...taStyle, minHeight: 90, fontFamily: mono, fontSize: 12 }} value={form.hero_roles} onChange={e => set("hero_roles", e.target.value)} />
+            </div>
+            <div>
+              <span style={labelStyle}>TEXT MARQUEE (usa ◆ com a separador)</span>
+              <textarea style={{ ...taStyle, minHeight: 90 }} value={form.marquee_text} onChange={e => set("marquee_text", e.target.value)} />
+            </div>
           </div>
         </div>
 

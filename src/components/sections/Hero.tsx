@@ -91,9 +91,14 @@ export default function Hero() {
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 30 }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#cfd2ca", border: "1px solid #2a2c2a", padding: "7px 12px" }}>{t("hero.developer")}</span>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#cfd2ca", border: "1px solid #2a2c2a", padding: "7px 12px" }}>{t("hero.student")}</span>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#0a0b0a", background: "var(--ac,#c7f536)", padding: "7px 12px", fontWeight: 700 }}>{t("hero.founder")}</span>
+              {siteSettings.hero_roles.split("\n").filter(Boolean).map((role, i, arr) => {
+                const isLast = i === arr.length - 1;
+                return (
+                  <span key={i} style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: isLast ? "#0a0b0a" : "#cfd2ca", background: isLast ? "var(--ac,#c7f536)" : "none", border: isLast ? "none" : "1px solid #2a2c2a", padding: "7px 12px", fontWeight: isLast ? 700 : 400 }}>
+                    {role.trim()}
+                  </span>
+                );
+              })}
             </div>
           </div>
 

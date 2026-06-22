@@ -97,9 +97,9 @@ export interface Database {
       };
 
       settings: {
-        Row:    { id: number; display_name: string; slogan: string; accent: string; default_lang: string; scanlines: boolean; boot_sequence: boolean; hud_cursor: boolean; updated_at: string; sub_name: string; coords: string; year: string; contact_cat: string; contact_es: string; contact_en: string; status_text: string; };
-        Insert: { id?: number; display_name?: string; slogan?: string; accent?: string; default_lang?: string; scanlines?: boolean; boot_sequence?: boolean; hud_cursor?: boolean; updated_at?: string; sub_name?: string; coords?: string; year?: string; contact_cat?: string; contact_es?: string; contact_en?: string; status_text?: string; };
-        Update: { id?: number; display_name?: string; slogan?: string; accent?: string; default_lang?: string; scanlines?: boolean; boot_sequence?: boolean; hud_cursor?: boolean; updated_at?: string; sub_name?: string; coords?: string; year?: string; contact_cat?: string; contact_es?: string; contact_en?: string; status_text?: string; };
+        Row:    { id: number; display_name: string; slogan: string; accent: string; default_lang: string; scanlines: boolean; boot_sequence: boolean; hud_cursor: boolean; updated_at: string; sub_name: string; coords: string; year: string; contact_cat: string; contact_es: string; contact_en: string; status_text: string; marquee_text: string | null; hero_roles: string | null; };
+        Insert: { id?: number; display_name?: string; slogan?: string; accent?: string; default_lang?: string; scanlines?: boolean; boot_sequence?: boolean; hud_cursor?: boolean; updated_at?: string; sub_name?: string; coords?: string; year?: string; contact_cat?: string; contact_es?: string; contact_en?: string; status_text?: string; marquee_text?: string | null; hero_roles?: string | null; };
+        Update: { id?: number; display_name?: string; slogan?: string; accent?: string; default_lang?: string; scanlines?: boolean; boot_sequence?: boolean; hud_cursor?: boolean; updated_at?: string; sub_name?: string; coords?: string; year?: string; contact_cat?: string; contact_es?: string; contact_en?: string; status_text?: string; marquee_text?: string | null; hero_roles?: string | null; };
       };
     };
     Views:     Record<string, never>;

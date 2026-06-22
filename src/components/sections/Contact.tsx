@@ -32,6 +32,7 @@ export default function Contact() {
   const [form, setForm] = useState<FormState>({ name: "", email: "", subject: "", body: "" });
   const [errors, setErrors] = useState<FormErrors>({ name: false, email: false, body: false });
   const [status, setStatus] = useState<SendStatus>("idle");
+  const [trap, setTrap] = useState("");
 
   const fieldStyle = (hasError: boolean): React.CSSProperties => ({
     ...inputStyle,
@@ -65,7 +66,7 @@ export default function Contact() {
       const res = await fetch("/api/admin/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, _trap: trap }),
       });
       if (res.ok) {
         setStatus("sent");
@@ -152,6 +153,17 @@ export default function Contact() {
               value={form.body} onChange={e => set("body", e.target.value)}
             />
           </div>
+          {/* honeypot — invisible to humans */}
+          <input
+            type="text"
+            name="website"
+            value={trap}
+            onChange={e => setTrap(e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0 }}
+          />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             {status === "sent"  && <span style={{ fontFamily: mono, fontSize: 10, color: "var(--ac,#c7f536)" }}>{t("form.sent")}</span>}
             {status === "error" && <span style={{ fontFamily: mono, fontSize: 10, color: "var(--pink,#ff2d8e)" }}>{t("form.error")}</span>}

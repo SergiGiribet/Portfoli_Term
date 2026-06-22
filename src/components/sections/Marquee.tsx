@@ -1,9 +1,22 @@
+"use client";
+
+import { useStore } from "@/lib/store";
+
 export default function Marquee() {
+  const { siteSettings } = useStore();
+
+  const segments = siteSettings.marquee_text.split("◆");
+
   const item = (
     <span>
-      WEB&nbsp;&nbsp;◆&nbsp;&nbsp;MOBILE&nbsp;&nbsp;◆&nbsp;&nbsp;HARDWARE&nbsp;&nbsp;◆&nbsp;&nbsp;
-      <span style={{ color: "var(--ac,#c7f536)" }}>開発者</span>
-      &nbsp;&nbsp;◆&nbsp;&nbsp;BORN TO USE. MADE TO CREATE.&nbsp;&nbsp;◆&nbsp;&nbsp;DUCKHATS&nbsp;&nbsp;◆&nbsp;&nbsp;
+      {segments.map((seg, i) => (
+        <span key={i}>
+          {seg}
+          {i < segments.length - 1 && (
+            <span style={{ color: "var(--ac,#c7f536)" }}>◆</span>
+          )}
+        </span>
+      ))}
     </span>
   );
 
